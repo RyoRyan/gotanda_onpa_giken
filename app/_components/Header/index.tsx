@@ -14,6 +14,22 @@ export default function Header() {
           priority
         />
       </Link>
+      <nav>
+        <ul>
+          <li>
+            <Link href="/news">ニュース</Link>
+          </li>
+          <li>
+            <Link href="/about">技研について</Link>
+          </li>
+          <li>
+            <Link href="/works">Works</Link>
+          </li>
+          <li>
+            <Link href="/contact">お問い合わせ</Link>
+          </li>
+        </ul>
+      </nav>
     </header>
   );
 }

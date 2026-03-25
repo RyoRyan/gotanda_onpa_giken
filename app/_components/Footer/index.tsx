@@ -1,16 +1,21 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="footer">
       <nav>
         <ul>
           <li>
-            <a href="/news">News</a>
+            <Link href="/news">News</Link>
           </li>
           <li>
-            <a href="/members">About</a>
+            <Link href="/about">About</Link>
           </li>
           <li>
-            <a href="/contact">お問い合わせ</a>
+            <Link href="/works">Works</Link>
+          </li>
+          <li>
+            <Link href="/contact">お問い合わせ</Link>
           </li>
         </ul>
       </nav>
