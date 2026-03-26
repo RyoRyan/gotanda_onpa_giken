@@ -1,8 +1,7 @@
-import Image from "next/image";
-
 import NewsList from "@/app/_components/NewsList";
 import ButtonLink from "@/app/_components/ButtonLink";
 import { News } from "@/app/_libs/microcms";
+import Image from "next/image";
 
 const data: {
   contents: News[];
@@ -43,15 +42,33 @@ export default function Home() {
 
   return (
     <>
-      <section>
-        <div className="font-bold text-center p-4">
-          <h1>五反田音響波動技術研究所</h1>
+      <section className="bg-radial from-zinc-200 to-zinc-50 py-32">
+        <div className="mx-auto max-w-5xl px-6 text-center">
+          <p className="mb-3 text-sm tracking-[0.3em] text-zinc-800">
+            GOTANDA ACOUSTIC WAVE TECHNOLOGY RESEARCH INSTITUTE.
+          </p>
+          <Image
+            src="/giken_logo_horizontal.svg"
+            alt="Gotanda Onpa Giken"
+            className="mx-auto"
+            width={800}
+            height={200}
+            priority
+          />
+          <p className="mt-4 text-sm text-zinc-600 md:text-base">
+            ギター・エフェクター改造製作：音響実験：電子工作のための記録と研究
+          </p>
         </div>
       </section>
-      <section className="news">
-        <h2>News</h2>
+
+      <section className="mx-auto -mt-8 w-full max-w-3xl rounded-2xl border border-zinc-200 bg-white px-6 py-8 text-center shadow-lg">
+        <h2 className="mb-6 text-2xl font-bold tracking-wide text-zinc-900">
+          News
+        </h2>
+
         <NewsList news={sliceData} />
-        <div className="newsLink">
+
+        <div className="mt-6">
           <ButtonLink href="/news">もっとみる</ButtonLink>
         </div>
       </section>
