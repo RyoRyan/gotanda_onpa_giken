@@ -15,9 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={`${zenOldMincho.className} flex min-h-screen flex-col`}>
+      <body
+        className={`${zenOldMincho.className} flex min-h-screen flex-col bg-radial from-zinc-200 to-zinc-50`}
+      >
         <Header />
-        <main className="flex-1 bg-[#f8f4ea]">{children}</main>
+        <main className="flex-1">{children}</main>
         <Footer />
       </body>
     </html>

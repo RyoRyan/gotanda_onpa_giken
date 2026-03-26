@@ -41,27 +41,27 @@ export default function Home() {
   const sliceData = data.contents.slice(0, 2);
 
   return (
-    <>
-      <section className="bg-radial from-zinc-200 to-zinc-50 py-32">
-        <div className="mx-auto max-w-5xl px-6 text-center">
-          <p className="mb-3 text-sm tracking-[0.3em] text-zinc-800">
-            GOTANDA ACOUSTIC WAVE TECHNOLOGY RESEARCH INSTITUTE.
+    <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-6 lg:grid lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] lg:items-start">
+      <section className="rounded-[2rem] px-8 py-10 lg:min-h-[36rem]">
+        <div className="mx-auto flex max-w-5xl flex-col items-center gap-3 text-center">
+          <p className="homePFadeIn text-base tracking-[0.3em] text-zinc-800">
+            GOTANDA ACOUSTIC WAVE TECHNOLOGY <br /> RESEARCH INSTITUTE.
           </p>
           <Image
-            src="/giken_logo_horizontal.svg"
+            src="/giken_logo_round.svg"
             alt="Gotanda Onpa Giken"
-            className="mx-auto"
-            width={800}
-            height={200}
+            className="homeLogoFadeIn mx-auto"
+            width={500}
+            height={500}
             priority
           />
-          <p className="mt-4 text-sm text-zinc-600 md:text-base">
+          <p className="homePBottomFadeIn text-base text-zinc-600 md:text-base">
             ギター・エフェクター改造製作：音響実験：電子工作のための記録と研究
           </p>
         </div>
       </section>
 
-      <section className="mx-auto -mt-8 w-full max-w-3xl rounded-2xl border border-zinc-200 bg-white px-6 py-8 text-center shadow-lg">
+      <section className="w-full rounded-2xl border border-zinc-200 bg-white px-6 py-8 text-center shadow-lg lg:sticky lg:top-10">
         <h2 className="mb-6 text-2xl font-bold tracking-wide text-zinc-900">
           News
         </h2>
@@ -72,6 +72,6 @@ export default function Home() {
           <ButtonLink href="/news">もっとみる</ButtonLink>
         </div>
       </section>
-    </>
+    </div>
   );
 }

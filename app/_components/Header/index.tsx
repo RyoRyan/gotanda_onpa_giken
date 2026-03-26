@@ -9,7 +9,7 @@ export default function Header() {
   const isHome = pathname === "/";
 
   return (
-    <header className="header h-24 bg-white">
+    <header className="header h-24 bg-white/60">
       <div className="mx-auto flex h-full max-w-6xl items-center justify-between px-2">
         <div className="w-[400px] shrink-0">
           <Link
