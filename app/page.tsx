@@ -27,9 +27,18 @@ const data: {
     },
     {
       id: "3",
-      title: "動画を公開しました",
+      title: "記事を公開しました",
       category: {
         name: "更新情報",
+      },
+      publishedAt: "2026/04/01",
+      createdAt: "2026/04/01",
+    },
+    {
+      id: "4",
+      title: "五反田音波技研について",
+      category: {
+        name: "重要",
       },
       publishedAt: "2026/04/01",
       createdAt: "2026/04/01",
@@ -38,13 +47,13 @@ const data: {
 };
 
 export default function Home() {
-  const sliceData = data.contents.slice(0, 2);
+  const sliceData = data.contents.slice(0, 4);
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-6 lg:grid lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] lg:items-start">
       <section className="rounded-[2rem] px-8 py-10 lg:min-h-[36rem]">
         <div className="mx-auto flex max-w-5xl flex-col items-center gap-3 text-center">
-          <p className="homePFadeIn text-base tracking-[0.3em] text-zinc-800">
+          <p className="homePFadeIn text-base tracking-[0.3em] text-zinc-800 mb-4">
             GOTANDA ACOUSTIC WAVE TECHNOLOGY <br /> RESEARCH INSTITUTE.
           </p>
           <Image
@@ -55,8 +64,8 @@ export default function Home() {
             height={500}
             priority
           />
-          <p className="homePBottomFadeIn text-base text-zinc-600 md:text-base">
-            ギター・エフェクター改造製作：音響実験：電子工作のための記録と研究
+          <p className="homePBottomFadeIn text-base text-zinc-600 md:text-base mt-4">
+            ギター・エフェクター改造製作 | 音響実験 | 電子工作のための記録と研究
           </p>
         </div>
       </section>

@@ -14,8 +14,10 @@ export default function Header() {
         <div className="w-[400px] shrink-0">
           <Link
             href="/"
-            className={`logoLink block ${
-              isHome ? "pointer-events-none invisible" : ""
+            className={`logoLink block transition-all duration-700 ${
+              isHome
+                ? "pointer-events-none -translate-x-4 opacity-0"
+                : "translate-x-0 opacity-100"
             }`}
           >
             <Image
