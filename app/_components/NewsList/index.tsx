@@ -20,13 +20,24 @@ export default function NewsList({ news }: Props) {
             href={`/news/${article.id}`}
             className="flex items-center gap-4 rounded-2xl border border-zinc-200 bg-white/70 p-4 text-left transition hover:border-zinc-300 hover:shadow-sm"
           >
-            <Image
-              className="h-20 w-20 shrink-0 rounded-xl object-cover"
-              src="/giken_logo_simple.svg"
-              alt="No Image"
-              width={100}
-              height={100}
-            />
+            {article.thumbnail ? (
+              <Image
+                src={article.thumbnail.url}
+                alt=""
+                className="h-auto w-[100px] shrink-0 rounded-xl object-cover"
+                width={article.thumbnail.width}
+                height={article.thumbnail.height}
+              />
+            ) : (
+              <Image
+                className="h-20 w-20 shrink-0 rounded-xl object-cover"
+                src="/giken_logo_simple.svg"
+                alt="No Image"
+                width={100}
+                height={100}
+              />
+            )}
+
             <dl className="min-w-0">
               <dt className="text-lg font-bold text-zinc-900">
                 {article.title}

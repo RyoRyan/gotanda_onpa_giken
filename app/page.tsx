@@ -1,53 +1,13 @@
+import Image from "next/image";
+import { getNewsList } from "@/app/_libs/microcms";
+import { TOP_NEWS_LIMIT } from "@/app/_constants";
 import NewsList from "@/app/_components/NewsList";
 import ButtonLink from "@/app/_components/ButtonLink";
-import { News } from "@/app/_libs/microcms";
-import Image from "next/image";
 
-const data: {
-  contents: News[];
-} = {
-  contents: [
-    {
-      id: "1",
-      title: "動画を公開しました",
-      category: {
-        name: "更新情報",
-      },
-      publishedAt: "2026/04/01",
-      createdAt: "2026/04/01",
-    },
-    {
-      id: "2",
-      title: "ツールを公開しました",
-      category: {
-        name: "更新情報",
-      },
-      publishedAt: "2026/04/01",
-      createdAt: "2026/04/01",
-    },
-    {
-      id: "3",
-      title: "記事を公開しました",
-      category: {
-        name: "更新情報",
-      },
-      publishedAt: "2026/04/01",
-      createdAt: "2026/04/01",
-    },
-    {
-      id: "4",
-      title: "五反田音波技研について",
-      category: {
-        name: "重要",
-      },
-      publishedAt: "2026/04/01",
-      createdAt: "2026/04/01",
-    },
-  ],
-};
-
-export default function Home() {
-  const sliceData = data.contents.slice(0, 4);
+export default async function Home() {
+  const data = await getNewsList({
+    limit: TOP_NEWS_LIMIT,
+  });
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-6 lg:grid lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] lg:items-center">
@@ -75,7 +35,7 @@ export default function Home() {
           News
         </h2>
 
-        <NewsList news={sliceData} />
+        <NewsList news={data.contents} />
 
         <div className="mt-6">
           <ButtonLink href="/news">もっとみる</ButtonLink>
