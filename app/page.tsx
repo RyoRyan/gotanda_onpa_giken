@@ -50,7 +50,7 @@ export default function Home() {
   const sliceData = data.contents.slice(0, 4);
 
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-6 lg:grid lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] lg:items-start">
+    <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-6 lg:grid lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] lg:items-center">
       <section className="rounded-[2rem] px-8 py-10 lg:min-h-[36rem]">
         <div className="mx-auto flex max-w-5xl flex-col items-center gap-3 text-center">
           <p className="homePFadeIn text-base tracking-[0.3em] text-zinc-800 mb-4">
@@ -70,7 +70,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full rounded-2xl border border-zinc-200 bg-white px-6 py-8 text-center shadow-lg lg:sticky lg:top-10">
+      <section className="w-full self-center rounded-2xl border border-zinc-200 bg-white px-6 py-8 text-center shadow-lg">
         <h2 className="mb-6 text-2xl font-bold tracking-wide text-zinc-900">
           News
         </h2>

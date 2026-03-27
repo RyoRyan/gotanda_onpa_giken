@@ -9,7 +9,7 @@ export default function ButtonLink({ href, children }: Props) {
   return (
     <Link
       href={href}
-      className="button bg-zinc-800 border-zinc-800 text-white border-2 p-2 rounded-sm"
+      className="button rounded-sm border-2 border-zinc-800 bg-zinc-800 p-2 text-white transition-opacity duration-300 hover:opacity-60"
     >
       {children}
     </Link>

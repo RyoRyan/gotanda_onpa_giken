@@ -1,6 +1,8 @@
 import { News } from "@/app/_libs/microcms";
 import Link from "next/link";
 import Image from "next/image";
+import Category from "../Category";
+import Date from "../Date";
 
 type Props = {
   news: News[];
@@ -30,10 +32,8 @@ export default function NewsList({ news }: Props) {
                 {article.title}
               </dt>
               <dd className="mt-2 flex flex-wrap items-center gap-3 text-sm text-zinc-600">
-                <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium tracking-wide text-zinc-700">
-                  {article.category.name}
-                </span>
-                <span>{article.publishedAt}</span>
+                <Category category={article.category} />
+                <Date date={article.publishedAt ?? article.createdAt} />
               </dd>
             </dl>
           </Link>
