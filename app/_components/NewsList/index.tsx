@@ -17,20 +17,20 @@ export default function NewsList({ news }: Props) {
       {news.map((article) => (
         <li key={article.id}>
           <Link
-            href={`/news/${article.id}`}
-            className="flex items-center gap-4 rounded-2xl border border-zinc-200 bg-white/70 p-4 text-left transition hover:border-zinc-300 hover:shadow-sm"
+            href={`/news/${article.slug || article.id}`}
+            className="grid grid-cols-[88px_minmax(0,1fr)] items-center gap-3 rounded-2xl border border-zinc-200 bg-white/70 p-4 text-left transition hover:border-zinc-300 hover:shadow-sm sm:grid-cols-[120px_minmax(0,1fr)] sm:gap-4"
           >
-            {article.thumbnail ? (
+            {article.coverImage ? (
               <Image
-                src={article.thumbnail.url}
+                src={article.coverImage.url}
                 alt=""
-                className="h-auto w-[100px] shrink-0 rounded-xl object-cover"
-                width={article.thumbnail.width}
-                height={article.thumbnail.height}
+                className="h-[66px] w-[88px] rounded-xl object-cover sm:h-[90px] sm:w-[120px]"
+                width={article.coverImage.width}
+                height={article.coverImage.height}
               />
             ) : (
               <Image
-                className="h-20 w-20 shrink-0 rounded-xl object-cover"
+                className="h-[66px] w-[88px] rounded-xl bg-white p-2 object-contain sm:h-[90px] sm:w-[120px] sm:p-3"
                 src="/giken_logo_simple.svg"
                 alt="No Image"
                 width={100}
@@ -39,7 +39,7 @@ export default function NewsList({ news }: Props) {
             )}
 
             <dl className="min-w-0">
-              <dt className="text-lg font-bold text-zinc-900">
+              <dt className="line-clamp-2 text-lg font-bold text-zinc-900">
                 {article.title}
               </dt>
               <dd className="mt-2 flex flex-wrap items-center gap-3 text-sm text-zinc-600">

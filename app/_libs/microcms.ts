@@ -5,23 +5,39 @@ import type {
   MicroCMSListContent,
 } from "microcms-js-sdk";
 
-export type Works = {
+export type Project = {
   title: string;
-  category: string;
-  description: string;
-  image: MicroCMSImage;
+  slug: string;
+  summary: string;
+  thumbnail?: MicroCMSImage;
+  sortOrder?: number;
 } & MicroCMSListContent;
 
 export type Category = {
   name: string;
+  contentType: "news" | "project" | "blog";
+  description?: string;
+  sortOrder?: number;
 } & MicroCMSListContent;
 
 export type News = {
   title: string;
-  description: string;
-  content: string;
-  thumbnail?: MicroCMSImage;
+  slug: string;
+  excerpt?: string;
+  body: string;
+  coverImage?: MicroCMSImage;
   category: Category;
+} & MicroCMSListContent;
+
+export type Article = {
+  title: string;
+  slug: string;
+  excerpt: string;
+  body: string;
+  coverImage?: MicroCMSImage;
+  category: Category;
+  tag?: Category[];
+  project?: Project;
 } & MicroCMSListContent;
 
 if (!process.env.MICROCMS_SERVICE_DOMAIN) {
@@ -37,12 +53,50 @@ const client = createClient({
   apiKey: process.env.MICROCMS_API_KEY,
 });
 
-export const getWorksList = async (queries?: MicroCMSQueries) => {
-  const listData = await client.getList<Works>({
-    endpoint: "works",
+const getDetailByIdOrSlug = async <T extends MicroCMSListContent>(
+  endpoint: string,
+  contentIdOrSlug: string,
+  queries?: MicroCMSQueries,
+) => {
+  try {
+    const detailData = await client.getListDetail<T>({
+      endpoint,
+      contentId: contentIdOrSlug,
+      queries,
+    });
+
+    return detailData;
+  } catch {
+    const listData = await client.getList<T>({
+      endpoint,
+      queries: {
+        ...queries,
+        filters: `slug[equals]${contentIdOrSlug}`,
+        limit: 1,
+      },
+    });
+
+    if (listData.contents.length === 0) {
+      throw new Error(`${endpoint} content not found`);
+    }
+
+    return listData.contents[0];
+  }
+};
+
+export const getProjectList = async (queries?: MicroCMSQueries) => {
+  const listData = await client.getList<Project>({
+    endpoint: "project",
     queries,
   });
   return listData;
+};
+
+export const getProjectDetail = async (
+  contentIdOrSlug: string,
+  queries?: MicroCMSQueries,
+) => {
+  return getDetailByIdOrSlug<Project>("project", contentIdOrSlug, queries);
 };
 
 export const getNewsList = async (queries?: MicroCMSQueries) => {
@@ -54,15 +108,40 @@ export const getNewsList = async (queries?: MicroCMSQueries) => {
 };
 
 export const getNewsDetail = async (
-  contentId: string,
+  contentIdOrSlug: string,
   queries?: MicroCMSQueries,
 ) => {
-  const detailData = await client.getListDetail<News>({
-    endpoint: "news",
-    contentId,
+  return getDetailByIdOrSlug<News>("news", contentIdOrSlug, queries);
+};
+
+export const getArticleList = async (queries?: MicroCMSQueries) => {
+  const listData = await client.getList<Article>({
+    endpoint: "article",
     queries,
   });
-  return detailData;
+  return listData;
+};
+
+export const getArticlesByProjectId = async (
+  projectId: string,
+  queries?: MicroCMSQueries,
+) => {
+  const articles = await client.getAllContents<Article>({
+    endpoint: "article",
+    queries: {
+      ...queries,
+      filters: `project[equals]${projectId}`,
+    },
+  });
+
+  return articles;
+};
+
+export const getArticleDetail = async (
+  contentIdOrSlug: string,
+  queries?: MicroCMSQueries,
+) => {
+  return getDetailByIdOrSlug<Article>("article", contentIdOrSlug, queries);
 };
 
 export const getCategoryDetail = async (

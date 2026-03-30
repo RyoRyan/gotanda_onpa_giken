@@ -1,19 +1,20 @@
-import { NEWS_LIST_LIMIT } from "@/app/_constants";
 import Link from "next/link";
 
 type Props = {
   totalCount: number;
   current?: number;
   basePath?: string;
+  perPage?: number;
 };
 
 export default function Pagination({
   totalCount,
   current = 1,
   basePath = "/news",
+  perPage = 10,
 }: Props) {
   const pages = Array.from(
-    { length: Math.ceil(totalCount / NEWS_LIST_LIMIT) },
+    { length: Math.ceil(totalCount / perPage) },
     (_, i) => i + 1,
   );
 

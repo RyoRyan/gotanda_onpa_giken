@@ -1,14 +1,14 @@
-import Sheet from "@/app/_components/Sheet";
 import Hero from "@/app/_components/Hero";
+import Sheet from "@/app/_components/Sheet";
 
 type Props = {
   children: React.ReactNode;
 };
 
-export default function RootLayout({ children }: Props) {
+export default function BlogLayout({ children }: Props) {
   return (
     <>
-      <Hero title="技研について" sub="about" />
+      <Hero title="雑記" sub="blog" />
       <Sheet>{children}</Sheet>
     </>
   );

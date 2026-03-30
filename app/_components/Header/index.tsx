@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -7,10 +8,19 @@ import { usePathname } from "next/navigation";
 export default function Header() {
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const navItems = [
+    { href: "/news", label: "最新情報" },
+    { href: "/about", label: "技研について" },
+    { href: "/projects", label: "プロジェクト" },
+    { href: "/blog", label: "雑記" },
+    { href: "/tools", label: "設計補助機能" },
+  ];
 
   return (
-    <header className="header h-24 bg-white/60">
-      <div className="mx-auto flex h-full max-w-6xl items-center justify-between px-2">
+    <header className="header sticky top-0 z-50 bg-white/80 backdrop-blur-sm">
+      <div className="mx-auto flex h-24 max-w-6xl items-center justify-between px-4 sm:px-6">
         <div className="w-0 shrink md:w-[220px] lg:w-[400px] lg:shrink-0">
           <Link
             href="/"
@@ -31,48 +41,79 @@ export default function Header() {
           </Link>
         </div>
 
-        <nav className="h-full">
+        <button
+          type="button"
+          aria-expanded={isMenuOpen}
+          aria-controls="mobile-navigation"
+          aria-label="メニューを開く"
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-zinc-300 bg-white/90 text-zinc-900 shadow-sm transition hover:bg-zinc-100 md:hidden"
+          onClick={() => setIsMenuOpen((open) => !open)}
+        >
+          <span className="relative block h-4 w-5">
+            <span
+              className={`absolute left-0 top-0 h-0.5 w-5 bg-current transition ${
+                isMenuOpen ? "translate-y-[7px] rotate-45" : ""
+              }`}
+            />
+            <span
+              className={`absolute left-0 top-[7px] h-0.5 w-5 bg-current transition ${
+                isMenuOpen ? "opacity-0" : ""
+              }`}
+            />
+            <span
+              className={`absolute left-0 top-[14px] h-0.5 w-5 bg-current transition ${
+                isMenuOpen ? "-translate-y-[7px] -rotate-45" : ""
+              }`}
+            />
+          </span>
+        </button>
+
+        <nav className="hidden h-full md:block">
           <ul className="flex h-full items-center text-base font-medium">
-            <li className="flex h-full items-center">
-              <Link
-                href="/news"
-                className="flex h-full items-center px-3 transition hover:opacity-70"
-              >
-                最新情報
-              </Link>
-            </li>
-            <li className="flex h-full items-center">
-              <Link
-                href="/about"
-                className="flex h-full items-center px-3 transition hover:opacity-70"
-              >
-                技研について
-              </Link>
-            </li>
-            <li className="flex h-full items-center">
-              <Link
-                href="/works"
-                className="flex h-full items-center px-3 transition hover:opacity-70"
-              >
-                試作品集
-              </Link>
-            </li>
-            <li className="flex h-full items-center">
-              <Link
-                href="/tools"
-                className="flex h-full items-center px-3 transition hover:opacity-70"
-              >
-                設計補助機能
-              </Link>
-            </li>
-            <li className="flex h-full items-center">
-              <Link
-                href="/contact"
-                className="flex h-full items-center px-3 transition hover:opacity-70"
-              >
-                お問い合わせ
-              </Link>
-            </li>
+            {navItems.map((item) => (
+              <li key={item.href} className="flex h-full items-center">
+                <Link
+                  href={item.href}
+                  className="flex h-full items-center px-3 transition hover:opacity-70"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+
+      <div
+        className={`absolute inset-x-0 top-full md:hidden ${
+          isMenuOpen ? "pointer-events-auto" : "pointer-events-none"
+        }`}
+      >
+        <div
+          className={`absolute inset-x-0 top-0 h-screen bg-white/20 backdrop-blur-[2px] transition-opacity duration-300 ${
+            isMenuOpen ? "opacity-100" : "opacity-0"
+          }`}
+          onClick={() => setIsMenuOpen(false)}
+        />
+        <nav
+          id="mobile-navigation"
+          aria-hidden={!isMenuOpen}
+          className={`relative ml-auto w-[min(22rem,calc(100vw-1rem))] border-l border-zinc-200 bg-white/70 px-4 py-4 shadow-lg backdrop-blur-md transition-transform duration-300 ease-out ${
+            isMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          <ul className="space-y-1 text-base font-medium">
+            {navItems.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="block rounded-xl px-4 py-3 transition hover:bg-zinc-100"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </nav>
       </div>

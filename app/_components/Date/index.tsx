@@ -1,4 +1,3 @@
-// import Image from "next/image";
 import { formatDate } from "@/app/_libs/utils";
 
 type Props = {
@@ -6,5 +5,5 @@ type Props = {
 };
 
 export default function Date({ date }: Props) {
-  return <span className="">{formatDate(date)}</span>;
+  return <span>{formatDate(date)}</span>;
 }

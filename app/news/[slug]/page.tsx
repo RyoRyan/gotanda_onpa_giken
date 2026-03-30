@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getNewsDetail } from "@/app/_libs/microcms";
-import Article from "@/app/_components/Article";
+import NewsArticle from "@/app/_components/NewsArticle";
 import ButtonLink from "@/app/_components/ButtonLink";
 
 type Props = {
@@ -19,8 +19,8 @@ export default async function Page({ params, searchParams }: Props) {
 
   return (
     <>
-      <Article data={data} />
-      <div>
+      <NewsArticle data={data} />
+      <div className="mt-8">
         <ButtonLink href="/news">ニュース一覧へ</ButtonLink>
       </div>
     </>
