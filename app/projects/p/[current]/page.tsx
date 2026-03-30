@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Category from "@/app/_components/Category";
 import Pagination from "@/app/_components/Pagination";
 import {
   type Article,
@@ -54,6 +55,21 @@ export default async function Page({ params }: Props) {
       <ul className="space-y-6">
         {projects.map((project) => {
           const projectArticles = articlesByProject.get(project.id) ?? [];
+          const uniqueCategories = Array.from(
+            new Map(
+              projectArticles.map((article) => [
+                article.category.id,
+                article.category,
+              ]),
+            ).values(),
+          );
+          const uniqueTags = Array.from(
+            new Map(
+              projectArticles.flatMap((article) =>
+                (article.tag ?? []).map((tag) => [tag.id, tag] as const),
+              ),
+            ).values(),
+          );
 
           return (
             <li
@@ -78,7 +94,7 @@ export default async function Page({ params }: Props) {
                       alt={`${project.title} thumbnail placeholder`}
                       width={200}
                       height={150}
-                      className="aspect-[4/3] h-auto w-full rounded-2xl bg-white p-4 object-contain"
+                      className="hidden aspect-[4/3] h-auto w-full rounded-2xl bg-white p-4 object-contain md:block"
                     />
                   </Link>
                 )}
@@ -96,6 +112,22 @@ export default async function Page({ params }: Props) {
                     <p className="leading-7 text-zinc-600">
                       {project.summary}
                     </p>
+                    {uniqueCategories.length > 0 || uniqueTags.length > 0 ? (
+                      <div className="flex flex-wrap items-center gap-2 pt-2">
+                        {uniqueCategories.map((category) => (
+                          <Category key={category.id} category={category} />
+                        ))}
+                        {uniqueTags.map((tag) => (
+                          <Link
+                            key={tag.id}
+                            href={`/articles?tag=${tag.id}`}
+                            className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium tracking-wide text-zinc-600"
+                          >
+                            {tag.name}
+                          </Link>
+                        ))}
+                      </div>
+                    ) : null}
                   </div>
 
                   <div className="space-y-3">
@@ -109,10 +141,10 @@ export default async function Page({ params }: Props) {
                     ) : (
                       <ul className="space-y-2">
                         {projectArticles.map((article) => (
-                          <li key={article.id}>
+                          <li key={article.id} className="rounded-2xl bg-zinc-50 px-4 py-3">
                             <Link
                               href={`/projects/${project.slug}/${article.slug}`}
-                              className="inline-flex items-center text-sm text-zinc-800 underline underline-offset-4 transition hover:text-zinc-500"
+                              className="inline-flex items-center text-sm font-medium text-zinc-800 underline underline-offset-4 transition hover:text-zinc-500"
                             >
                               {article.title}
                             </Link>

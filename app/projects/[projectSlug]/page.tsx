@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import ButtonLink from "@/app/_components/ButtonLink";
+import Category from "@/app/_components/Category";
 import {
   getArticlesByProjectId,
   getProjectDetail,
@@ -18,12 +20,40 @@ export default async function Page({ params }: Props) {
   const articles = await getArticlesByProjectId(project.id, {
     orders: "-publishedAt",
   });
+  const uniqueCategories = Array.from(
+    new Map(
+      articles.map((article) => [article.category.id, article.category]),
+    ).values(),
+  );
+  const uniqueTags = Array.from(
+    new Map(
+      articles.flatMap((article) =>
+        (article.tag ?? []).map((tag) => [tag.id, tag] as const),
+      ),
+    ).values(),
+  );
 
   return (
     <section className="space-y-8">
       <div className="space-y-4">
         <h2 className="text-3xl font-bold text-zinc-950">{project.title}</h2>
         <p className="leading-7 text-zinc-600">{project.summary}</p>
+        {uniqueCategories.length > 0 || uniqueTags.length > 0 ? (
+          <div className="flex flex-wrap items-center gap-2">
+            {uniqueCategories.map((category) => (
+              <Category key={category.id} category={category} />
+            ))}
+            {uniqueTags.map((tag) => (
+              <Link
+                key={tag.id}
+                href={`/articles?tag=${tag.id}`}
+                className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium tracking-wide text-zinc-600"
+              >
+                {tag.name}
+              </Link>
+            ))}
+          </div>
+        ) : null}
         {project.thumbnail ? (
           <Image
             src={project.thumbnail.url}
@@ -64,6 +94,10 @@ export default async function Page({ params }: Props) {
             ))}
           </ul>
         )}
+      </div>
+
+      <div>
+        <ButtonLink href="/projects">プロジェクト一覧に戻る</ButtonLink>
       </div>
     </section>
   );

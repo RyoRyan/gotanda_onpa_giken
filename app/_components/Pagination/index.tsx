@@ -5,6 +5,7 @@ type Props = {
   current?: number;
   basePath?: string;
   perPage?: number;
+  searchParams?: Record<string, string | string[] | undefined>;
 };
 
 export default function Pagination({
@@ -12,11 +13,36 @@ export default function Pagination({
   current = 1,
   basePath = "/news",
   perPage = 10,
+  searchParams,
 }: Props) {
   const pages = Array.from(
     { length: Math.ceil(totalCount / perPage) },
     (_, i) => i + 1,
   );
+
+  const buildHref = (page: number) => {
+    const params = new URLSearchParams();
+
+    Object.entries(searchParams ?? {}).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach((item) => {
+          if (item) {
+            params.append(key, item);
+          }
+        });
+      } else if (value) {
+        params.set(key, value);
+      }
+    });
+
+    if (page > 1) {
+      params.set("page", String(page));
+    }
+
+    const query = params.toString();
+
+    return query ? `${basePath}?${query}` : basePath;
+  };
 
   return (
     <nav className="mt-8 flex justify-center">
@@ -25,7 +51,7 @@ export default function Pagination({
           <li key={p}>
             {current !== p ? (
               <Link
-                href={`${basePath}/p/${p}`}
+                href={searchParams ? buildHref(p) : `${basePath}/p/${p}`}
                 className="flex h-10 min-w-10 items-center justify-center rounded-full border border-zinc-300 bg-white px-3 text-sm font-medium text-zinc-700 transition hover:border-zinc-800 hover:text-zinc-900"
               >
                 {p}

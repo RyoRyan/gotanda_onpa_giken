@@ -15,11 +15,11 @@ export default function NewsList({ news }: Props) {
   return (
     <ul className="space-y-4">
       {news.map((article) => (
-        <li key={article.id}>
-          <Link
-            href={`/news/${article.slug || article.id}`}
-            className="grid grid-cols-[88px_minmax(0,1fr)] items-center gap-3 rounded-2xl border border-zinc-200 bg-white/70 p-4 text-left transition hover:border-zinc-300 hover:shadow-sm sm:grid-cols-[120px_minmax(0,1fr)] sm:gap-4"
-          >
+        <li
+          key={article.id}
+          className="grid grid-cols-[88px_minmax(0,1fr)] items-center gap-3 rounded-2xl border border-zinc-200 bg-white/70 p-4 text-left transition hover:border-zinc-300 hover:shadow-sm sm:grid-cols-[120px_minmax(0,1fr)] sm:gap-4"
+        >
+          <Link href={`/news/${article.slug || article.id}`}>
             {article.coverImage ? (
               <Image
                 src={article.coverImage.url}
@@ -37,17 +37,22 @@ export default function NewsList({ news }: Props) {
                 height={100}
               />
             )}
-
-            <dl className="min-w-0">
-              <dt className="line-clamp-2 text-lg font-bold text-zinc-900">
-                {article.title}
-              </dt>
-              <dd className="mt-2 flex flex-wrap items-center gap-3 text-sm text-zinc-600">
-                <Category category={article.category} />
-                <Date date={article.publishedAt ?? article.createdAt} />
-              </dd>
-            </dl>
           </Link>
+
+          <dl className="min-w-0">
+            <dt className="line-clamp-2 text-lg font-bold text-zinc-900">
+              <Link
+                href={`/news/${article.slug || article.id}`}
+                className="transition hover:text-zinc-700"
+              >
+                {article.title}
+              </Link>
+            </dt>
+            <dd className="mt-2 flex flex-wrap items-center gap-3 text-sm text-zinc-600">
+              <Category category={article.category} />
+              <Date date={article.publishedAt ?? article.createdAt} />
+            </dd>
+          </dl>
         </li>
       ))}
     </ul>

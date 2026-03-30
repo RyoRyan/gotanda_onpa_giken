@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Image from "next/image";
 import type { News } from "@/app/_libs/microcms";
 import Date from "../Date";
@@ -23,9 +22,7 @@ export default function NewsArticle({ data }: Props) {
           </p>
         ) : null}
         <div className="flex flex-wrap items-center gap-3 text-sm text-zinc-500">
-          <Link href={`/news/category/${newsCategory.id}`}>
-            <Category category={newsCategory} />
-          </Link>
+          <Category category={newsCategory} />
           <Date date={data.publishedAt ?? data.createdAt} />
         </div>
       </header>

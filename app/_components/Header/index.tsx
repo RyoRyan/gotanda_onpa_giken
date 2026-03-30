@@ -16,10 +16,11 @@ export default function Header() {
     { href: "/projects", label: "プロジェクト" },
     { href: "/blog", label: "雑記" },
     { href: "/tools", label: "設計補助機能" },
+    { href: "/articles", label: "記事一覧" },
   ];
 
   return (
-    <header className="header sticky top-0 z-50 bg-white/80 backdrop-blur-sm">
+    <header className="header fixed inset-x-0 top-0 z-50 bg-white/80 backdrop-blur-sm">
       <div className="mx-auto flex h-24 max-w-6xl items-center justify-between px-4 sm:px-6">
         <div className="w-[260px] shrink-0 lg:w-[400px]">
           <Link

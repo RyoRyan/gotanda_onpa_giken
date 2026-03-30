@@ -5,28 +5,60 @@ import Category from "../Category";
 
 type Props = {
   data: ArticleData;
+  showExcerpt?: boolean;
 };
 
-export default function Article({ data }: Props) {
+export default function Article({ data, showExcerpt = true }: Props) {
   return (
     <article className="space-y-6">
-      <header className="space-y-4">
+      <header className="space-y-5">
         <h1 className="text-2xl font-bold tracking-tight text-zinc-950 md:text-3xl">
           {data.title}
         </h1>
-        <p className="text-base leading-7 text-zinc-600 md:text-lg">
-          {data.excerpt}
-        </p>
-        <div className="flex flex-wrap items-center gap-3 text-sm text-zinc-500">
-          <Category category={data.category} />
-          <Date date={data.publishedAt ?? data.createdAt} />
-          {data.project ? (
-            <Link
-              href={`/projects/${data.project.slug}`}
-              className="text-zinc-700 underline underline-offset-4"
-            >
-              {data.project.title}
-            </Link>
+        {showExcerpt ? (
+          <p className="text-base leading-7 text-zinc-600 md:text-lg">
+            {data.excerpt}
+          </p>
+        ) : null}
+        <div className="grid gap-3 text-sm text-zinc-500">
+          <div className="flex flex-wrap items-start gap-x-6 gap-y-3">
+            {data.project ? (
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="font-medium text-zinc-600">Project:</span>
+                <Link
+                  href={`/projects/${data.project.slug}`}
+                  className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium tracking-wide text-zinc-600 transition hover:border-zinc-300 hover:text-zinc-900"
+                >
+                  {data.project.title}
+                </Link>
+              </div>
+            ) : null}
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="font-medium text-zinc-600">Category:</span>
+              <Category category={data.category} />
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="font-medium text-zinc-600">Date:</span>
+              <span className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium tracking-wide text-zinc-600">
+                <Date date={data.publishedAt ?? data.createdAt} />
+              </span>
+            </div>
+          </div>
+          {(data.tag ?? []).length > 0 ? (
+            <div className="flex flex-wrap items-start gap-2">
+              <span className="pt-1 font-medium text-zinc-600">Tags:</span>
+              <div className="flex flex-wrap items-center gap-3">
+                {(data.tag ?? []).map((tag) => (
+                  <Link
+                    key={tag.id}
+                    href={`/articles?tag=${tag.id}`}
+                    className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium tracking-wide text-zinc-600"
+                  >
+                    {tag.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
           ) : null}
         </div>
       </header>

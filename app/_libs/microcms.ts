@@ -122,6 +122,15 @@ export const getArticleList = async (queries?: MicroCMSQueries) => {
   return listData;
 };
 
+export const getAllArticles = async (queries?: MicroCMSQueries) => {
+  const articles = await client.getAllContents<Article>({
+    endpoint: "article",
+    queries,
+  });
+
+  return articles;
+};
+
 export const getArticlesByProjectId = async (
   projectId: string,
   queries?: MicroCMSQueries,
