@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Category from "@/app/_components/Category";
+import Date from "@/app/_components/Date";
 import Pagination from "@/app/_components/Pagination";
 import {
   type Article,
@@ -144,10 +145,17 @@ export default async function Page({ params }: Props) {
                           <li key={article.id} className="rounded-2xl bg-zinc-50 px-4 py-3">
                             <Link
                               href={`/projects/${project.slug}/${article.slug}`}
-                              className="inline-flex items-center text-sm font-medium text-zinc-800 underline underline-offset-4 transition hover:text-zinc-500"
+                              className="inline-flex items-center text-sm font-semibold text-zinc-800 underline underline-offset-4 transition hover:text-zinc-500"
                             >
                               {article.title}
                             </Link>
+                            <div className="mt-2">
+                              <span className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium tracking-wide text-zinc-600">
+                                <Date
+                                  date={article.publishedAt ?? article.createdAt}
+                                />
+                              </span>
+                            </div>
                           </li>
                         ))}
                       </ul>

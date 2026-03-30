@@ -3,6 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import ButtonLink from "@/app/_components/ButtonLink";
 import Category from "@/app/_components/Category";
+import Date from "@/app/_components/Date";
 import {
   getArticlesByProjectId,
   getProjectDetail,
@@ -87,6 +88,11 @@ export default async function Page({ params }: Props) {
                 >
                   {article.title}
                 </Link>
+                <div className="mt-2">
+                  <span className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium tracking-wide text-zinc-600">
+                    <Date date={article.publishedAt ?? article.createdAt} />
+                  </span>
+                </div>
                 <p className="mt-2 text-sm leading-6 text-zinc-600">
                   {article.excerpt}
                 </p>
@@ -96,7 +102,7 @@ export default async function Page({ params }: Props) {
         )}
       </div>
 
-      <div>
+      <div className="flex justify-center">
         <ButtonLink href="/projects">プロジェクト一覧に戻る</ButtonLink>
       </div>
     </section>
