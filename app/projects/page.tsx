@@ -1,7 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import Pagination from "@/app/_components/Pagination";
-import { getArticlesByProjectId, getProjectList } from "@/app/_libs/microcms";
+import {
+  type Article,
+  getArticlesByProjectId,
+  getProjectList,
+} from "@/app/_libs/microcms";
 import { PROJECTS_PAGE_LIMIT } from "@/app/_constants";
 
 export default async function Page() {
@@ -10,13 +14,13 @@ export default async function Page() {
     orders: "sortOrder",
   });
 
-  const projectArticlesEntries = await Promise.all(
+  const projectArticlesEntries: Array<[string, Article[]]> = await Promise.all(
     projects.map(async (project) => [
       project.id,
       await getArticlesByProjectId(project.id, { orders: "-publishedAt" }),
     ]),
   );
-  const articlesByProject = new Map(projectArticlesEntries);
+  const articlesByProject = new Map<string, Article[]>(projectArticlesEntries);
 
   return (
     <div className="space-y-6">
