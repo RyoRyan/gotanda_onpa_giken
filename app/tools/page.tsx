@@ -6,8 +6,9 @@ export default function ToolsPage() {
       <div className="space-y-3">
         <h2 className="text-2xl font-bold text-zinc-950">Tools</h2>
         <p>
-          設計補助機能のセクションは現在準備中です。回路設計や実験の補助に使える
-          ツールを今後ここに追加していきます。
+          設計補助機能のセクションは現在準備中です。
+          <br />
+          回路設計や実験の補助に使えるツールを今後ここに追加していきます。
         </p>
       </div>
 
