@@ -2,6 +2,7 @@ import Link from "next/link";
 import ArticleList from "@/app/_components/ArticleList";
 import Pagination from "@/app/_components/Pagination";
 import { ARTICLES_PAGE_LIMIT } from "@/app/_constants";
+import ArticleFilters from "@/app/articles/_components/ArticleFilters";
 import { getAllArticles, getArticleList } from "@/app/_libs/microcms";
 import { sortCategoriesByOrder } from "@/app/_libs/utils";
 
@@ -44,28 +45,6 @@ const buildArticleFilters = ({
   }
 
   return filters.join("[and]");
-};
-
-const buildArticlesHref = ({
-  category,
-  tags,
-}: {
-  category?: string;
-  tags: string[];
-}) => {
-  const params = new URLSearchParams();
-
-  if (category) {
-    params.set("category", category);
-  }
-
-  tags.forEach((tag) => {
-    params.append("tag", tag);
-  });
-
-  const query = params.toString();
-
-  return query ? `/articles?${query}` : "/articles";
 };
 
 export default async function Page({
@@ -113,55 +92,13 @@ export default async function Page({
   return (
     <section className="space-y-6 leading-relaxed text-zinc-700">
       <div className="space-y-4 rounded-3xl border border-zinc-200 bg-white/80 p-5 md:p-6">
-        <div className="space-y-2">
-          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-zinc-500">
-            Categories
-          </p>
-          <div className="flex flex-wrap items-center gap-2">
-            {categories.map((category) => (
-              <Link
-                key={category.id}
-                href={buildArticlesHref({
-                  category:
-                    category.id === categoryId ? undefined : category.id,
-                  tags: tagIds,
-                })}
-                className={`inline-flex rounded-full px-3 py-1 text-xs font-medium tracking-wide transition ${
-                  category.id === categoryId
-                    ? "bg-zinc-800 text-white"
-                    : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200"
-                }`}
-              >
-                {category.name}
-              </Link>
-            ))}
-          </div>
-        </div>
-        <div className="space-y-2">
-          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-zinc-500">
-            Tags
-          </p>
-          <div className="flex flex-wrap items-center gap-2">
-            {tags.map((tag) => (
-              <Link
-                key={tag.id}
-                href={buildArticlesHref({
-                  category: categoryId,
-                  tags: tagIds.includes(tag.id)
-                    ? tagIds.filter((id) => id !== tag.id)
-                    : [...tagIds, tag.id],
-                })}
-                className={`rounded-full px-3 py-1 text-xs font-medium tracking-wide transition ${
-                  tagIds.includes(tag.id)
-                    ? "bg-zinc-800 text-white"
-                    : "border border-zinc-200 bg-white text-zinc-600 hover:border-zinc-300 hover:text-zinc-900"
-                }`}
-              >
-                {tag.name}
-              </Link>
-            ))}
-          </div>
-        </div>
+        <ArticleFilters
+          key={`${categoryId ?? ""}:${tagIds.join(",")}`}
+          categories={categories}
+          tags={tags}
+          selectedCategoryId={categoryId}
+          selectedTagIds={tagIds}
+        />
         <div className="pt-1">
           <Link
             href="/articles"
