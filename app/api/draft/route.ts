@@ -50,7 +50,9 @@ export async function GET(request: NextRequest) {
   const contentIdOrSlug =
     request.nextUrl.searchParams.get("contentId") ??
     request.nextUrl.searchParams.get("slug");
-  const draftKey = request.nextUrl.searchParams.get("dk");
+  const draftKey =
+    request.nextUrl.searchParams.get("draftKey") ??
+    request.nextUrl.searchParams.get("dk");
   const expectedSecret = getPreviewSecret();
 
   if (!expectedSecret) {
