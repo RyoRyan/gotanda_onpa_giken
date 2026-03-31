@@ -27,7 +27,7 @@ export default async function Page({ params, searchParams }: Props) {
     draftKey: dk,
   }).catch(notFound);
   const articles = await getArticlesByProjectId(project.id, {
-    orders: "-publishedAt",
+    orders: "publishedAt",
   });
   const uniqueCategories = sortCategoriesByOrder(
     Array.from(
@@ -96,15 +96,7 @@ export default async function Page({ params, searchParams }: Props) {
             height={project.thumbnail.height}
             className="h-auto w-full rounded-2xl object-cover"
           />
-        ) : (
-          <Image
-            src="/giken_logo_simple.svg"
-            alt={`${project.title} thumbnail placeholder`}
-            width={800}
-            height={600}
-            className="h-auto w-full rounded-2xl bg-white p-8 object-contain"
-          />
-        )}
+        ) : null}
       </div>
 
       <div className="space-y-4">
@@ -115,26 +107,56 @@ export default async function Page({ params, searchParams }: Props) {
           <ul className="space-y-3">
             {articles.map((article) => (
               <li key={article.id} className="rounded-2xl border border-zinc-200 p-4">
-                {isDraftPreview ? (
-                  <span className="text-lg font-semibold text-zinc-900">
-                    {article.title}
-                  </span>
-                ) : (
-                  <Link
-                    href={`/projects/${project.slug || project.id}/${article.slug || article.id}`}
-                    className="text-lg font-semibold text-zinc-900 underline underline-offset-4"
-                  >
-                    {article.title}
-                  </Link>
-                )}
-                <div className="mt-2">
-                  <span className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium tracking-wide text-zinc-600">
-                    <Date date={article.publishedAt ?? article.createdAt} />
-                  </span>
+                <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_140px] sm:items-start sm:gap-4">
+                  <div className="min-w-0">
+                    {isDraftPreview ? (
+                      <span className="text-lg font-semibold text-zinc-900">
+                        {article.title}
+                      </span>
+                    ) : (
+                      <Link
+                        href={`/projects/${project.slug || project.id}/${article.slug || article.id}`}
+                        className="text-lg font-semibold text-zinc-900 underline underline-offset-4"
+                      >
+                        {article.title}
+                      </Link>
+                    )}
+                    <div className="mt-2">
+                      <span className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium tracking-wide text-zinc-600">
+                        <Date date={article.publishedAt ?? article.createdAt} />
+                      </span>
+                    </div>
+                    <p className="mt-2 text-sm leading-6 text-zinc-600">
+                      {article.excerpt}
+                    </p>
+                  </div>
+                  {article.coverImage ? (
+                    isDraftPreview ? (
+                      <div className="w-full sm:w-[140px] sm:justify-self-end">
+                        <Image
+                          src={article.coverImage.url}
+                          alt=""
+                          width={200}
+                          height={150}
+                          className="aspect-[4/3] h-auto w-full rounded-2xl object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <Link
+                        href={`/projects/${project.slug || project.id}/${article.slug || article.id}`}
+                        className="block w-full transition hover:opacity-90 sm:w-[140px] sm:justify-self-end"
+                      >
+                        <Image
+                          src={article.coverImage.url}
+                          alt=""
+                          width={200}
+                          height={150}
+                          className="aspect-[4/3] h-auto w-full rounded-2xl object-cover"
+                        />
+                      </Link>
+                    )
+                  ) : null}
                 </div>
-                <p className="mt-2 text-sm leading-6 text-zinc-600">
-                  {article.excerpt}
-                </p>
               </li>
             ))}
           </ul>
