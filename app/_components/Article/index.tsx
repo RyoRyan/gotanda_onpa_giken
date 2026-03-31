@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Article as ArticleData } from "@/app/_libs/microcms";
+import { sortCategoriesByOrder } from "@/app/_libs/utils";
 import Date from "../Date";
 import Category from "../Category";
 
@@ -9,6 +10,8 @@ type Props = {
 };
 
 export default function Article({ data, showExcerpt = true }: Props) {
+  const sortedTags = sortCategoriesByOrder(data.tag ?? []);
+
   return (
     <article className="space-y-6">
       <header className="space-y-5">
@@ -26,7 +29,7 @@ export default function Article({ data, showExcerpt = true }: Props) {
               <div className="flex flex-wrap items-center gap-2">
                 <span className="font-medium text-zinc-600">Project:</span>
                 <Link
-                  href={`/projects/${data.project.slug}`}
+                  href={`/projects/${data.project.slug || data.project.id}`}
                   className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium tracking-wide text-zinc-600 transition hover:border-zinc-300 hover:text-zinc-900"
                 >
                   {data.project.title}
@@ -44,11 +47,11 @@ export default function Article({ data, showExcerpt = true }: Props) {
               </span>
             </div>
           </div>
-          {(data.tag ?? []).length > 0 ? (
+          {sortedTags.length > 0 ? (
             <div className="flex flex-wrap items-start gap-2">
               <span className="pt-1 font-medium text-zinc-600">Tags:</span>
               <div className="flex flex-wrap items-center gap-3">
-                {(data.tag ?? []).map((tag) => (
+                {sortedTags.map((tag) => (
                   <Link
                     key={tag.id}
                     href={`/articles?tag=${tag.id}`}

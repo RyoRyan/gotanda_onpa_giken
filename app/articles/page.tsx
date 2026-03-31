@@ -3,6 +3,7 @@ import ArticleList from "@/app/_components/ArticleList";
 import Pagination from "@/app/_components/Pagination";
 import { ARTICLES_PAGE_LIMIT } from "@/app/_constants";
 import { getAllArticles, getArticleList } from "@/app/_libs/microcms";
+import { sortCategoriesByOrder } from "@/app/_libs/utils";
 
 type SearchParams = Promise<{
   category?: string | string[];
@@ -92,17 +93,21 @@ export default async function Page({
     getAllArticles({ orders: "-publishedAt" }),
     getArticleList(articleQueries),
   ]);
-  const categories = Array.from(
-    new Map(
-      allArticles.map((article) => [article.category.id, article.category]),
-    ).values(),
+  const categories = sortCategoriesByOrder(
+    Array.from(
+      new Map(
+        allArticles.map((article) => [article.category.id, article.category]),
+      ).values(),
+    ),
   );
-  const tags = Array.from(
-    new Map(
-      allArticles.flatMap((article) =>
-        (article.tag ?? []).map((tag) => [tag.id, tag] as const),
-      ),
-    ).values(),
+  const tags = sortCategoriesByOrder(
+    Array.from(
+      new Map(
+        allArticles.flatMap((article) =>
+          (article.tag ?? []).map((tag) => [tag.id, tag] as const),
+        ),
+      ).values(),
+    ),
   );
 
   return (

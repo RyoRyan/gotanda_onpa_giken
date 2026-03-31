@@ -15,6 +15,7 @@ type Props = {
 export default async function Page({ params, searchParams }: Props) {
   const { slug } = await params;
   const { dk } = await searchParams;
+  const isDraftPreview = Boolean(dk);
   const data = await getArticleDetail(slug, { draftKey: dk }).catch(notFound);
 
   if (data.project) {
@@ -26,7 +27,6 @@ export default async function Page({ params, searchParams }: Props) {
     orders: "-publishedAt",
   });
   const currentIndex = blogArticles.findIndex((article) => article.id === data.id);
-  const isDraftPreview = Boolean(dk);
 
   if (currentIndex === -1 && !isDraftPreview) {
     notFound();
@@ -42,13 +42,19 @@ export default async function Page({ params, searchParams }: Props) {
       <div className="mt-8 space-y-3">
         <div className="flex items-center justify-between gap-3">
           <div>
-            {olderArticle ? (
-              <ButtonLink href={`/blog/${olderArticle.slug}`}>前の記事</ButtonLink>
+            {/* A microCMS draft key is entry-specific, so draft preview should not
+                link into neighboring published entries. */}
+            {!isDraftPreview && olderArticle ? (
+              <ButtonLink href={`/blog/${olderArticle.slug || olderArticle.id}`}>
+                前の記事
+              </ButtonLink>
             ) : null}
           </div>
           <div className="ml-auto">
-            {newerArticle ? (
-              <ButtonLink href={`/blog/${newerArticle.slug}`}>次の記事</ButtonLink>
+            {!isDraftPreview && newerArticle ? (
+              <ButtonLink href={`/blog/${newerArticle.slug || newerArticle.id}`}>
+                次の記事
+              </ButtonLink>
             ) : null}
           </div>
         </div>

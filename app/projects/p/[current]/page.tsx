@@ -10,6 +10,7 @@ import {
   getProjectList,
 } from "@/app/_libs/microcms";
 import { PROJECTS_PAGE_LIMIT } from "@/app/_constants";
+import { sortCategoriesByOrder } from "@/app/_libs/utils";
 
 type Props = {
   params: Promise<{
@@ -56,20 +57,24 @@ export default async function Page({ params }: Props) {
       <ul className="space-y-6">
         {projects.map((project) => {
           const projectArticles = articlesByProject.get(project.id) ?? [];
-          const uniqueCategories = Array.from(
-            new Map(
-              projectArticles.map((article) => [
-                article.category.id,
-                article.category,
-              ]),
-            ).values(),
+          const uniqueCategories = sortCategoriesByOrder(
+            Array.from(
+              new Map(
+                projectArticles.map((article) => [
+                  article.category.id,
+                  article.category,
+                ]),
+              ).values(),
+            ),
           );
-          const uniqueTags = Array.from(
-            new Map(
-              projectArticles.flatMap((article) =>
-                (article.tag ?? []).map((tag) => [tag.id, tag] as const),
-              ),
-            ).values(),
+          const uniqueTags = sortCategoriesByOrder(
+            Array.from(
+              new Map(
+                projectArticles.flatMap((article) =>
+                  (article.tag ?? []).map((tag) => [tag.id, tag] as const),
+                ),
+              ).values(),
+            ),
           );
 
           return (
@@ -79,7 +84,7 @@ export default async function Page({ params }: Props) {
             >
               <div className="grid gap-5 p-5 md:grid-cols-[200px_minmax(0,1fr)] md:p-6">
                 {project.thumbnail ? (
-                  <Link href={`/projects/${project.slug}`}>
+                  <Link href={`/projects/${project.slug || project.id}`}>
                     <Image
                       src={project.thumbnail.url}
                       alt=""
@@ -89,7 +94,7 @@ export default async function Page({ params }: Props) {
                     />
                   </Link>
                 ) : (
-                  <Link href={`/projects/${project.slug}`}>
+                  <Link href={`/projects/${project.slug || project.id}`}>
                     <Image
                       src="/giken_logo_simple.svg"
                       alt={`${project.title} thumbnail placeholder`}
@@ -104,7 +109,7 @@ export default async function Page({ params }: Props) {
                   <div className="space-y-2">
                     <h2 className="text-2xl font-bold text-zinc-950">
                       <Link
-                        href={`/projects/${project.slug}`}
+                        href={`/projects/${project.slug || project.id}`}
                         className="transition hover:opacity-70"
                       >
                         {project.title}
@@ -144,7 +149,7 @@ export default async function Page({ params }: Props) {
                         {projectArticles.map((article) => (
                           <li key={article.id} className="rounded-2xl bg-zinc-50 px-4 py-3">
                             <Link
-                              href={`/projects/${project.slug}/${article.slug}`}
+                              href={`/projects/${project.slug || project.id}/${article.slug || article.id}`}
                               className="inline-flex items-center text-sm font-semibold text-zinc-800 underline underline-offset-4 transition hover:text-zinc-500"
                             >
                               {article.title}

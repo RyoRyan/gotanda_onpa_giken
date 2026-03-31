@@ -23,6 +23,8 @@ const buildPreviewPath = async ({
   contentIdOrSlug: string;
   draftKey: string;
 }) => {
+  // Resolve the canonical frontend path from the CMS entry itself so we avoid
+  // trusting raw query params for routing decisions.
   switch (contentType) {
     case "news": {
       const news = await getNewsDetail(contentIdOrSlug, { draftKey });
@@ -36,7 +38,7 @@ const buildPreviewPath = async ({
       const article = await getArticleDetail(contentIdOrSlug, { draftKey });
 
       if (article.project) {
-        return `/projects/${article.project.slug}/${article.slug || article.id}`;
+        return `/projects/${article.project.slug || article.project.id}/${article.slug || article.id}`;
       }
 
       return `/blog/${article.slug || article.id}`;
@@ -74,7 +76,7 @@ export async function GET(request: NextRequest) {
       {
         ok: false,
         message:
-          "contentType, contentId (or slug), and dk query parameters are required",
+          "contentType, contentId (or slug), and draftKey (or dk) query parameters are required",
       },
       { status: 400 },
     );
@@ -87,15 +89,27 @@ export async function GET(request: NextRequest) {
       draftKey,
     });
     const previewUrl = new URL(pathname, request.url);
+    // Keep the draft key on the redirected URL because the page components use
+    // it directly when requesting draft content from microCMS.
     previewUrl.searchParams.set("dk", draftKey);
 
     const draft = await draftMode();
     draft.enable();
 
     return NextResponse.redirect(previewUrl);
-  } catch {
+  } catch (error) {
+    console.error("Draft preview failed", {
+      contentType,
+      contentIdOrSlug,
+      error,
+    });
+
     return NextResponse.json(
-      { ok: false, message: "Preview content not found" },
+      {
+        ok: false,
+        message:
+          error instanceof Error ? error.message : "Preview content not found",
+      },
       { status: 404 },
     );
   }

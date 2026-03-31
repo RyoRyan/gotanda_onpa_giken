@@ -10,10 +10,10 @@ type Props = {
 
 const getArticleHref = (article: Article) => {
   if (article.project) {
-    return `/projects/${article.project.slug}/${article.slug}`;
+    return `/projects/${article.project.slug || article.project.id}/${article.slug || article.id}`;
   }
 
-  return `/blog/${article.slug}`;
+  return `/blog/${article.slug || article.id}`;
 };
 
 export default function ArticleList({ articles }: Props) {

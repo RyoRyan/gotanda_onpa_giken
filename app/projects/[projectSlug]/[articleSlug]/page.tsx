@@ -19,11 +19,12 @@ type Props = {
 export default async function Page({ params, searchParams }: Props) {
   const { projectSlug, articleSlug } = await params;
   const { dk } = await searchParams;
+  const isDraftPreview = Boolean(dk);
   const data = await getArticleDetail(articleSlug, {
     draftKey: dk,
   }).catch(notFound);
 
-  if (!data.project || data.project.slug !== projectSlug) {
+  if (!data.project || (data.project.slug || data.project.id) !== projectSlug) {
     notFound();
   }
 
@@ -33,7 +34,6 @@ export default async function Page({ params, searchParams }: Props) {
   const currentIndex = projectArticles.findIndex(
     (article) => article.id === data.id,
   );
-  const isDraftPreview = Boolean(dk);
 
   if (currentIndex === -1 && !isDraftPreview) {
     notFound();
@@ -49,15 +49,21 @@ export default async function Page({ params, searchParams }: Props) {
       <div className="mt-8 space-y-3">
         <div className="flex items-center justify-between gap-3">
           <div>
-            {olderArticle ? (
-              <ButtonLink href={`/projects/${projectSlug}/${olderArticle.slug}`}>
+            {/* Neighboring project articles need their own draft keys, so keep
+                navigation disabled while previewing the current draft entry. */}
+            {!isDraftPreview && olderArticle ? (
+              <ButtonLink
+                href={`/projects/${projectSlug}/${olderArticle.slug || olderArticle.id}`}
+              >
                 前の記事
               </ButtonLink>
             ) : null}
           </div>
           <div className="ml-auto">
-            {newerArticle ? (
-              <ButtonLink href={`/projects/${projectSlug}/${newerArticle.slug}`}>
+            {!isDraftPreview && newerArticle ? (
+              <ButtonLink
+                href={`/projects/${projectSlug}/${newerArticle.slug || newerArticle.id}`}
+              >
                 次の記事
               </ButtonLink>
             ) : null}

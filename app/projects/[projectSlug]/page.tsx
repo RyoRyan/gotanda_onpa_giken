@@ -8,6 +8,7 @@ import {
   getArticlesByProjectId,
   getProjectDetail,
 } from "@/app/_libs/microcms";
+import { sortCategoriesByOrder } from "@/app/_libs/utils";
 
 type Props = {
   params: Promise<{
@@ -21,23 +22,28 @@ type Props = {
 export default async function Page({ params, searchParams }: Props) {
   const { projectSlug } = await params;
   const { dk } = await searchParams;
+  const isDraftPreview = Boolean(dk);
   const project = await getProjectDetail(projectSlug, {
     draftKey: dk,
   }).catch(notFound);
   const articles = await getArticlesByProjectId(project.id, {
     orders: "-publishedAt",
   });
-  const uniqueCategories = Array.from(
-    new Map(
-      articles.map((article) => [article.category.id, article.category]),
-    ).values(),
+  const uniqueCategories = sortCategoriesByOrder(
+    Array.from(
+      new Map(
+        articles.map((article) => [article.category.id, article.category]),
+      ).values(),
+    ),
   );
-  const uniqueTags = Array.from(
-    new Map(
-      articles.flatMap((article) =>
-        (article.tag ?? []).map((tag) => [tag.id, tag] as const),
-      ),
-    ).values(),
+  const uniqueTags = sortCategoriesByOrder(
+    Array.from(
+      new Map(
+        articles.flatMap((article) =>
+          (article.tag ?? []).map((tag) => [tag.id, tag] as const),
+        ),
+      ).values(),
+    ),
   );
 
   return (
@@ -48,16 +54,37 @@ export default async function Page({ params, searchParams }: Props) {
         {uniqueCategories.length > 0 || uniqueTags.length > 0 ? (
           <div className="flex flex-wrap items-center gap-2">
             {uniqueCategories.map((category) => (
-              <Category key={category.id} category={category} />
+              // Project preview uses the project's draft key only. Category, tag,
+              // and related-article links would leave draft context, so render
+              // them as plain labels while previewing.
+              isDraftPreview ? (
+                <span
+                  key={category.id}
+                  className="inline-flex rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium tracking-wide text-zinc-700"
+                >
+                  {category.name}
+                </span>
+              ) : (
+                <Category key={category.id} category={category} />
+              )
             ))}
             {uniqueTags.map((tag) => (
-              <Link
-                key={tag.id}
-                href={`/articles?tag=${tag.id}`}
-                className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium tracking-wide text-zinc-600"
-              >
-                {tag.name}
-              </Link>
+              isDraftPreview ? (
+                <span
+                  key={tag.id}
+                  className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium tracking-wide text-zinc-600"
+                >
+                  {tag.name}
+                </span>
+              ) : (
+                <Link
+                  key={tag.id}
+                  href={`/articles?tag=${tag.id}`}
+                  className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium tracking-wide text-zinc-600"
+                >
+                  {tag.name}
+                </Link>
+              )
             ))}
           </div>
         ) : null}
@@ -88,12 +115,18 @@ export default async function Page({ params, searchParams }: Props) {
           <ul className="space-y-3">
             {articles.map((article) => (
               <li key={article.id} className="rounded-2xl border border-zinc-200 p-4">
-                <Link
-                  href={`/projects/${project.slug}/${article.slug}`}
-                  className="text-lg font-semibold text-zinc-900 underline underline-offset-4"
-                >
-                  {article.title}
-                </Link>
+                {isDraftPreview ? (
+                  <span className="text-lg font-semibold text-zinc-900">
+                    {article.title}
+                  </span>
+                ) : (
+                  <Link
+                    href={`/projects/${project.slug || project.id}/${article.slug || article.id}`}
+                    className="text-lg font-semibold text-zinc-900 underline underline-offset-4"
+                  >
+                    {article.title}
+                  </Link>
+                )}
                 <div className="mt-2">
                   <span className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium tracking-wide text-zinc-600">
                     <Date date={article.publishedAt ?? article.createdAt} />
