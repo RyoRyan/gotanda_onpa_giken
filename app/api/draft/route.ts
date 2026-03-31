@@ -16,24 +16,24 @@ const isDraftContentType = (value: string | null): value is DraftContentType =>
 
 const buildPreviewPath = async ({
   contentType,
-  slug,
+  contentIdOrSlug,
   draftKey,
 }: {
   contentType: DraftContentType;
-  slug: string;
+  contentIdOrSlug: string;
   draftKey: string;
 }) => {
   switch (contentType) {
     case "news": {
-      const news = await getNewsDetail(slug, { draftKey });
+      const news = await getNewsDetail(contentIdOrSlug, { draftKey });
       return `/news/${news.slug || news.id}`;
     }
     case "project": {
-      const project = await getProjectDetail(slug, { draftKey });
+      const project = await getProjectDetail(contentIdOrSlug, { draftKey });
       return `/projects/${project.slug || project.id}`;
     }
     case "article": {
-      const article = await getArticleDetail(slug, { draftKey });
+      const article = await getArticleDetail(contentIdOrSlug, { draftKey });
 
       if (article.project) {
         return `/projects/${article.project.slug}/${article.slug || article.id}`;
@@ -47,7 +47,9 @@ const buildPreviewPath = async ({
 export async function GET(request: NextRequest) {
   const secret = request.nextUrl.searchParams.get("secret");
   const contentType = request.nextUrl.searchParams.get("contentType");
-  const slug = request.nextUrl.searchParams.get("slug");
+  const contentIdOrSlug =
+    request.nextUrl.searchParams.get("contentId") ??
+    request.nextUrl.searchParams.get("slug");
   const draftKey = request.nextUrl.searchParams.get("dk");
   const expectedSecret = getPreviewSecret();
 
@@ -65,11 +67,12 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  if (!isDraftContentType(contentType) || !slug || !draftKey) {
+  if (!isDraftContentType(contentType) || !contentIdOrSlug || !draftKey) {
     return NextResponse.json(
       {
         ok: false,
-        message: "contentType, slug, and dk query parameters are required",
+        message:
+          "contentType, contentId (or slug), and dk query parameters are required",
       },
       { status: 400 },
     );
@@ -78,7 +81,7 @@ export async function GET(request: NextRequest) {
   try {
     const pathname = await buildPreviewPath({
       contentType,
-      slug,
+      contentIdOrSlug,
       draftKey,
     });
     const previewUrl = new URL(pathname, request.url);
