@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -31,13 +30,12 @@ export default function Header() {
                 : "translate-x-0 opacity-100"
             }`}
           >
-            <Image
+            <img
               src="/giken_logo_horizontal.svg"
               alt="Gotanda Onpa Giken"
-              className="h-auto w-full"
               width={400}
               height={80}
-              priority
+              className="h-auto w-full"
             />
           </Link>
         </div>
