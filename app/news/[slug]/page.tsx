@@ -20,8 +20,8 @@ export default async function Page({ params, searchParams }: Props) {
   return (
     <>
       <NewsArticle data={data} />
-      <div className="mt-8">
-        <ButtonLink href="/news">ニュース一覧へ</ButtonLink>
+      <div className="mt-8 flex justify-center">
+        <ButtonLink href="/news">一覧に戻る</ButtonLink>
       </div>
     </>
   );

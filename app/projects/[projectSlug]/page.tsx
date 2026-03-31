@@ -164,7 +164,7 @@ export default async function Page({ params, searchParams }: Props) {
       </div>
 
       <div className="flex justify-center">
-        <ButtonLink href="/projects">プロジェクト一覧に戻る</ButtonLink>
+        <ButtonLink href="/projects">一覧に戻る</ButtonLink>
       </div>
     </section>
   );

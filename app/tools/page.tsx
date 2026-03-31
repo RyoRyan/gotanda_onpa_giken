@@ -20,7 +20,7 @@ export default function ToolsPage() {
       </div>
 
       <div className="flex justify-center">
-        <ButtonLink href="/">トップへ戻る</ButtonLink>
+        <ButtonLink href="/">トップに戻る</ButtonLink>
       </div>
     </section>
   );

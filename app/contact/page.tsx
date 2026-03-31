@@ -15,8 +15,8 @@ export default function ContactPage() {
         </p>
       </div>
 
-      <div>
-        <ButtonLink href="/">トップへ戻る</ButtonLink>
+      <div className="flex justify-center">
+        <ButtonLink href="/">トップに戻る</ButtonLink>
       </div>
     </section>
   );

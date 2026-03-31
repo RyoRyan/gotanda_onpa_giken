@@ -26,7 +26,7 @@ export default async function Home() {
             priority
           />
           <p className="homePBottomFadeIn text-base text-zinc-600 md:text-base mt-4">
-            ギター・エフェクター改造製作 | 音響実験 | 電子工作のための記録と研究
+            ギター・エフェクター改造製作 | 音響実験 | 電子回路のための記録と研究
           </p>
         </div>
       </section>
