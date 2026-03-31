@@ -6,6 +6,7 @@ import { NEWS_LIST_LIMIT } from "@/app/_constants";
 export default async function Page() {
   const { contents: news, totalCount } = await getNewsList({
     limit: NEWS_LIST_LIMIT,
+    orders: "-publishedAt",
   });
 
   return (

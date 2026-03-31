@@ -1,4 +1,4 @@
-export default function Home() {
+export default function AboutPage() {
   return (
     <div className="space-y-6 leading-relaxed">
       <p>

@@ -13,7 +13,7 @@ import { PROJECTS_PAGE_LIMIT } from "@/app/_constants";
 export default async function Page() {
   const { contents: projects, totalCount } = await getProjectList({
     limit: PROJECTS_PAGE_LIMIT,
-    orders: "sortOrder",
+    orders: "-sortOrder",
   });
 
   const projectArticlesEntries: Array<[string, Article[]]> = await Promise.all(

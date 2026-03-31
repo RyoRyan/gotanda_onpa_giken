@@ -12,6 +12,7 @@ const getSecret = (request: NextRequest) =>
   request.headers.get("x-revalidate-secret");
 
 const revalidateCommonPaths = () => {
+  revalidatePath("/");
   revalidatePath("/projects");
   revalidatePath("/projects/[projectSlug]", "page");
   revalidatePath("/projects/[projectSlug]/[articleSlug]", "page");
@@ -31,11 +32,13 @@ const revalidateByApi = (api?: string) => {
       revalidateCommonPaths();
       break;
     case "news":
+      revalidatePath("/");
       revalidatePath("/news");
       revalidatePath("/news/[slug]", "page");
       revalidatePath("/news/category/[id]", "page");
       break;
     case "categories":
+      revalidatePath("/");
       revalidatePath("/news/category/[id]", "page");
       revalidateCommonPaths();
       break;

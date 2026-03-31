@@ -13,11 +13,17 @@ type Props = {
   params: Promise<{
     projectSlug: string;
   }>;
+  searchParams: Promise<{
+    dk?: string;
+  }>;
 };
 
-export default async function Page({ params }: Props) {
+export default async function Page({ params, searchParams }: Props) {
   const { projectSlug } = await params;
-  const project = await getProjectDetail(projectSlug).catch(notFound);
+  const { dk } = await searchParams;
+  const project = await getProjectDetail(projectSlug, {
+    draftKey: dk,
+  }).catch(notFound);
   const articles = await getArticlesByProjectId(project.id, {
     orders: "-publishedAt",
   });

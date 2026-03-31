@@ -1,6 +1,6 @@
 const socialLinks = [
   {
-    href: "https://x.com/X",
+    href: "https://x.com/Gotanda_Onpa",
     label: "X",
     icon: (
       <svg
@@ -14,7 +14,7 @@ const socialLinks = [
     ),
   },
   {
-    href: "https://www.youtube.com/@YouTube",
+    href: "https://www.youtube.com/@Gotanda-Onpa",
     label: "YouTube",
     icon: (
       <svg
@@ -30,6 +30,10 @@ const socialLinks = [
 ];
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+  const copyrightYears =
+    currentYear === 2026 ? "2026" : `2026-${currentYear}`;
+
   return (
     <footer className="bg-white/60 px-6 py-5">
       <nav className="mx-auto max-w-4xl">
@@ -51,7 +55,7 @@ export default function Footer() {
         </ul>
       </nav>
       <p className="mt-3 text-center text-sm text-neutral-600">
-        © 五反田音響波動技術研究所. All Rights Reserved 2026
+        © 五反田音響波動技術研究所. All Rights Reserved {copyrightYears}
       </p>
     </footer>
   );

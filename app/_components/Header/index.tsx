@@ -13,7 +13,7 @@ export default function Header() {
   const navItems = [
     { href: "/news", label: "最新情報" },
     { href: "/about", label: "技研について" },
-    { href: "/projects", label: "プロジェクト" },
+    { href: "/projects", label: "試作開発" },
     { href: "/blog", label: "雑記" },
     { href: "/tools", label: "設計補助機能" },
     { href: "/articles", label: "記事一覧" },

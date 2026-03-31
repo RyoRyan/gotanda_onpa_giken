@@ -21,6 +21,7 @@ export default async function Page({ params }: Props) {
   const { contents: news, totalCount } = await getNewsList({
     limit: NEWS_LIST_LIMIT,
     offset: NEWS_LIST_LIMIT * (current - 1),
+    orders: "-publishedAt",
   });
 
   if (news.length === 0) {

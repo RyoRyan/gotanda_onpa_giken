@@ -1,6 +1,6 @@
 import ButtonLink from "@/app/_components/ButtonLink";
 
-export default function Page() {
+export default function ToolsPage() {
   return (
     <section className="space-y-6 leading-relaxed text-zinc-700">
       <div className="space-y-3">

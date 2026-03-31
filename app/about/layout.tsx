@@ -5,7 +5,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-export default function RootLayout({ children }: Props) {
+export default function AboutLayout({ children }: Props) {
   return (
     <>
       <Hero title="技研について" sub="about" />

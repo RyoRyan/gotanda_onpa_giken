@@ -8,7 +8,7 @@ type Props = {
 export default function ProjectsLayout({ children }: Props) {
   return (
     <>
-      <Hero title="プロジェクト" sub="projects" />
+      <Hero title="試作開発" sub="projects" />
       <Sheet>{children}</Sheet>
     </>
   );

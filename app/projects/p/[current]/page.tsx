@@ -28,7 +28,7 @@ export default async function Page({ params }: Props) {
   const { contents: projects, totalCount } = await getProjectList({
     limit: PROJECTS_PAGE_LIMIT,
     offset: PROJECTS_PAGE_LIMIT * (current - 1),
-    orders: "sortOrder",
+    orders: "-sortOrder",
   });
 
   if (projects.length === 0) {

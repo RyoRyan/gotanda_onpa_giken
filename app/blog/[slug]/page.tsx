@@ -7,11 +7,15 @@ type Props = {
   params: Promise<{
     slug: string;
   }>;
+  searchParams: Promise<{
+    dk?: string;
+  }>;
 };
 
-export default async function Page({ params }: Props) {
+export default async function Page({ params, searchParams }: Props) {
   const { slug } = await params;
-  const data = await getArticleDetail(slug).catch(notFound);
+  const { dk } = await searchParams;
+  const data = await getArticleDetail(slug, { draftKey: dk }).catch(notFound);
 
   if (data.project) {
     notFound();
@@ -22,13 +26,15 @@ export default async function Page({ params }: Props) {
     orders: "-publishedAt",
   });
   const currentIndex = blogArticles.findIndex((article) => article.id === data.id);
+  const isDraftPreview = Boolean(dk);
 
-  if (currentIndex === -1) {
+  if (currentIndex === -1 && !isDraftPreview) {
     notFound();
   }
 
-  const newerArticle = blogArticles[currentIndex - 1];
-  const olderArticle = blogArticles[currentIndex + 1];
+  const newerArticle = currentIndex > 0 ? blogArticles[currentIndex - 1] : null;
+  const olderArticle =
+    currentIndex >= 0 ? blogArticles[currentIndex + 1] : null;
 
   return (
     <>
