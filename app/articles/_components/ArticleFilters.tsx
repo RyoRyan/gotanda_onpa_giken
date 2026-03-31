@@ -49,6 +49,7 @@ export default function ArticleFilters({
     setPendingFilters(nextFilters);
     const href = buildArticlesHref(nextFilters);
     router.push(href);
+    router.refresh();
   };
 
   return (

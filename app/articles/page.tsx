@@ -6,6 +6,8 @@ import ArticleFilters from "@/app/articles/_components/ArticleFilters";
 import { getAllArticles, getArticleList } from "@/app/_libs/microcms";
 import { sortCategoriesByOrder } from "@/app/_libs/utils";
 
+export const dynamic = "force-dynamic";
+
 type SearchParams = Promise<{
   category?: string | string[];
   tag?: string | string[];
