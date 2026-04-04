@@ -43,7 +43,9 @@ export async function buildSocialMetadata(
       ];
 
   return {
-    title,
+    title: {
+      absolute: socialTitle,
+    },
     description: resolvedDescription,
     openGraph: {
       ...(parentMetadata.openGraph ?? {}),
