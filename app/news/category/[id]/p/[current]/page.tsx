@@ -1,8 +1,10 @@
+import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 import { getCategoryDetail, getNewsList } from "@/app/_libs/microcms";
 import NewsList from "@/app/_components/NewsList";
 import { NEWS_LIST_LIMIT } from "@/app/_constants";
 import Pagination from "@/app/_components/Pagination";
+import { buildSocialMetadata } from "@/app/_libs/metadata";
 
 type Props = {
   params: Promise<{
@@ -10,6 +12,31 @@ type Props = {
     current: string;
   }>;
 };
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const routeParams = await params;
+  const current = parseInt(routeParams.current, 10);
+
+  if (Number.isNaN(current) || current < 1) {
+    notFound();
+  }
+
+  const category = await getCategoryDetail(routeParams.id).catch(notFound);
+
+  return buildSocialMetadata(
+    {
+      title:
+        current > 1
+          ? `${category.name}の最新情報 ${current}ページ`
+          : `${category.name}の最新情報`,
+      description: category.description,
+    },
+    parent,
+  );
+}
 
 export default async function Page({ params }: Props) {
   const routeParams = await params;

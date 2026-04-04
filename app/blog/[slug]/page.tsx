@@ -1,7 +1,9 @@
+import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 import Article from "@/app/_components/Article";
 import ButtonLink from "@/app/_components/ButtonLink";
 import { getAllArticles, getArticleDetail } from "@/app/_libs/microcms";
+import { buildSocialMetadata } from "@/app/_libs/metadata";
 
 type Props = {
   params: Promise<{
@@ -11,6 +13,35 @@ type Props = {
     dk?: string;
   }>;
 };
+
+export async function generateMetadata({
+  params,
+  searchParams,
+}: Props,
+parent: ResolvingMetadata): Promise<Metadata> {
+  const { slug } = await params;
+  const { dk } = await searchParams;
+  const data = await getArticleDetail(slug, { draftKey: dk }).catch(notFound);
+
+  if (data.project) {
+    notFound();
+  }
+
+  return buildSocialMetadata(
+    {
+      title: data.title,
+      description: data.excerpt,
+      image: data.coverImage
+        ? {
+            url: data.coverImage.url,
+            width: data.coverImage.width,
+            height: data.coverImage.height,
+          }
+        : null,
+    },
+    parent,
+  );
+}
 
 export default async function Page({ params, searchParams }: Props) {
   const { slug } = await params;

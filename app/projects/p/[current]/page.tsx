@@ -1,3 +1,4 @@
+import type { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -11,12 +12,32 @@ import {
 } from "@/app/_libs/microcms";
 import { PROJECTS_PAGE_LIMIT } from "@/app/_constants";
 import { sortCategoriesByOrder } from "@/app/_libs/utils";
+import { buildSocialMetadata } from "@/app/_libs/metadata";
 
 type Props = {
   params: Promise<{
     current: string;
   }>;
 };
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const routeParams = await params;
+  const current = parseInt(routeParams.current, 10);
+
+  if (Number.isNaN(current) || current < 1) {
+    notFound();
+  }
+
+  return buildSocialMetadata(
+    {
+      title: current > 1 ? `試作開発 ${current}ページ` : "試作開発",
+    },
+    parent,
+  );
+}
 
 export default async function Page({ params }: Props) {
   const routeParams = await params;

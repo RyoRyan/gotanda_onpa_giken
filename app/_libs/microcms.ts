@@ -92,6 +92,15 @@ export const getProjectList = async (queries?: MicroCMSQueries) => {
   return listData;
 };
 
+export const getAllProjects = async (queries?: MicroCMSQueries) => {
+  const projects = await client.getAllContents<Project>({
+    endpoint: "project",
+    queries,
+  });
+
+  return projects;
+};
+
 export const getProjectDetail = async (
   contentIdOrSlug: string,
   queries?: MicroCMSQueries,
@@ -105,6 +114,15 @@ export const getNewsList = async (queries?: MicroCMSQueries) => {
     queries,
   });
   return listData;
+};
+
+export const getAllNews = async (queries?: MicroCMSQueries) => {
+  const news = await client.getAllContents<News>({
+    endpoint: "news",
+    queries,
+  });
+
+  return news;
 };
 
 export const getNewsDetail = async (

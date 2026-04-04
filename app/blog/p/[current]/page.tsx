@@ -1,14 +1,35 @@
+import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 import ArticleList from "@/app/_components/ArticleList";
 import Pagination from "@/app/_components/Pagination";
 import { BLOG_PAGE_LIMIT } from "@/app/_constants";
 import { getArticleList } from "@/app/_libs/microcms";
+import { buildSocialMetadata } from "@/app/_libs/metadata";
 
 type Props = {
   params: Promise<{
     current: string;
   }>;
 };
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const routeParams = await params;
+  const current = parseInt(routeParams.current, 10);
+
+  if (Number.isNaN(current) || current < 1) {
+    notFound();
+  }
+
+  return buildSocialMetadata(
+    {
+      title: current > 1 ? `雑記 ${current}ページ` : "雑記",
+    },
+    parent,
+  );
+}
 
 export default async function Page({ params }: Props) {
   const routeParams = await params;

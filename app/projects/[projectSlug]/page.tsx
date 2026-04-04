@@ -1,3 +1,4 @@
+import type { Metadata, ResolvingMetadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -9,6 +10,7 @@ import {
   getProjectDetail,
 } from "@/app/_libs/microcms";
 import { sortCategoriesByOrder } from "@/app/_libs/utils";
+import { buildSocialMetadata } from "@/app/_libs/metadata";
 
 type Props = {
   params: Promise<{
@@ -18,6 +20,33 @@ type Props = {
     dk?: string;
   }>;
 };
+
+export async function generateMetadata({
+  params,
+  searchParams,
+}: Props,
+parent: ResolvingMetadata): Promise<Metadata> {
+  const { projectSlug } = await params;
+  const { dk } = await searchParams;
+  const project = await getProjectDetail(projectSlug, {
+    draftKey: dk,
+  }).catch(notFound);
+
+  return buildSocialMetadata(
+    {
+      title: project.title,
+      description: project.summary,
+      image: project.thumbnail
+        ? {
+            url: project.thumbnail.url,
+            width: project.thumbnail.width,
+            height: project.thumbnail.height,
+          }
+        : null,
+    },
+    parent,
+  );
+}
 
 export default async function Page({ params, searchParams }: Props) {
   const { projectSlug } = await params;

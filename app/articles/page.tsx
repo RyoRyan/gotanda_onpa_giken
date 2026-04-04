@@ -1,10 +1,16 @@
+import type { Metadata, ResolvingMetadata } from "next";
 import Link from "next/link";
 import ArticleList from "@/app/_components/ArticleList";
 import Pagination from "@/app/_components/Pagination";
 import { ARTICLES_PAGE_LIMIT } from "@/app/_constants";
 import ArticleFilters from "@/app/articles/_components/ArticleFilters";
-import { getAllArticles, getArticleList } from "@/app/_libs/microcms";
+import {
+  getAllArticles,
+  getArticleList,
+  getCategoryDetail,
+} from "@/app/_libs/microcms";
 import { sortCategoriesByOrder } from "@/app/_libs/utils";
+import { buildSocialMetadata } from "@/app/_libs/metadata";
 
 export const dynamic = "force-dynamic";
 
@@ -24,6 +30,42 @@ const getMultiParam = (value?: string | string[]) => {
 
   return Array.isArray(value) ? value : [value];
 };
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+},
+parent: ResolvingMetadata): Promise<Metadata> {
+  const resolvedSearchParams = await searchParams;
+  const categoryId = getSingleParam(resolvedSearchParams.category);
+  const tagIds = getMultiParam(resolvedSearchParams.tag);
+  const currentPage = Number.parseInt(
+    getSingleParam(resolvedSearchParams.page) ?? "1",
+    10,
+  );
+  const page = Number.isNaN(currentPage) || currentPage < 1 ? 1 : currentPage;
+
+  const [category, tags] = await Promise.all([
+    categoryId ? getCategoryDetail(categoryId).catch(() => null) : null,
+    Promise.all(tagIds.map((tagId) => getCategoryDetail(tagId).catch(() => null))),
+  ]);
+
+  const titleParts = [
+    ...(category ? [category.name] : []),
+    ...tags.flatMap((tag) => (tag ? [tag.name] : [])),
+  ];
+  const baseTitle =
+    titleParts.length > 0 ? `${titleParts.join(" / ")}の記事一覧` : "記事一覧";
+
+  return buildSocialMetadata(
+    {
+      title: page > 1 ? `${baseTitle} ${page}ページ` : baseTitle,
+      description: category?.description,
+    },
+    parent,
+  );
+}
 
 const buildArticleFilters = ({
   category,

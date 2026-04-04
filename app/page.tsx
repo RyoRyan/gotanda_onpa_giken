@@ -1,8 +1,24 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { getNewsList } from "@/app/_libs/microcms";
 import { TOP_NEWS_LIMIT } from "@/app/_constants";
 import NewsList from "@/app/_components/NewsList";
 import ButtonLink from "@/app/_components/ButtonLink";
+
+export const metadata: Metadata = {
+  title: {
+    absolute: "五反田音響波動技術研究所",
+  },
+  description: "ギター・エフェクター改造製作、音響実験、電子回路の研究記録。",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "五反田音響波動技術研究所",
+    description: "ギター・エフェクター改造製作、音響実験、電子回路の研究記録。",
+    url: "/",
+  },
+};
 
 export default async function Home() {
   const data = await getNewsList({
