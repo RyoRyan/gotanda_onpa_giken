@@ -17,6 +17,22 @@ export const metadata: Metadata = {
     title: "五反田音響波動技術研究所",
     description: "ギター・エフェクター改造製作、音響実験、電子回路の研究記録。",
     url: "/",
+    siteName: "五反田音響波動技術研究所",
+    locale: "ja_JP",
+    type: "website",
+    images: [
+      {
+        url: "/social-share-default.png",
+        alt: "五反田音響波動技術研究所のロゴと名称",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "五反田音響波動技術研究所",
+    description: "ギター・エフェクター改造製作、音響実験、電子回路の研究記録。",
+    creator: "@Gotanda_Onpa",
+    images: ["/social-share-default.png"],
   },
 };
 
