@@ -129,7 +129,13 @@ export default async function Page() {
                                 key={article.id}
                                 className="rounded-2xl bg-zinc-50 px-4 py-3"
                               >
-                                <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_120px] sm:items-start sm:gap-4">
+                                <div
+                                  className={
+                                    article.coverImage
+                                      ? "grid gap-3 sm:grid-cols-[minmax(0,1fr)_120px] sm:items-start sm:gap-4"
+                                      : "grid gap-3"
+                                  }
+                                >
                                   <div className="min-w-0">
                                     <Link
                                       href={`/projects/${project.slug || project.id}/${article.slug || article.id}`}
