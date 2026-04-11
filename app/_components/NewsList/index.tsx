@@ -49,7 +49,10 @@ export default function NewsList({ news }: Props) {
               </Link>
             </dt>
             <dd className="mt-2 flex flex-wrap items-center gap-3 text-sm text-zinc-600">
-              <Category category={article.category} />
+              <Category
+                category={article.category}
+                href={`/news/category/${article.category.id}`}
+              />
               <Date date={article.publishedAt ?? article.createdAt} />
             </dd>
           </dl>

@@ -22,7 +22,10 @@ export default function NewsArticle({ data }: Props) {
           </p>
         ) : null}
         <div className="flex flex-wrap items-center gap-3 text-sm text-zinc-500">
-          <Category category={newsCategory} />
+          <Category
+            category={newsCategory}
+            href={`/news/category/${newsCategory.id}`}
+          />
           <Date date={data.publishedAt ?? data.createdAt} />
         </div>
       </header>

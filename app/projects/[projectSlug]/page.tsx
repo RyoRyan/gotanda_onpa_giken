@@ -136,7 +136,13 @@ export default async function Page({ params, searchParams }: Props) {
           <ul className="space-y-3">
             {articles.map((article) => (
               <li key={article.id} className="rounded-2xl border border-zinc-200 p-4">
-                <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_140px] sm:items-start sm:gap-4">
+                <div
+                  className={
+                    article.coverImage
+                      ? "grid gap-3 sm:grid-cols-[minmax(0,1fr)_140px] sm:items-start sm:gap-4"
+                      : "grid gap-3"
+                  }
+                >
                   <div className="min-w-0">
                     {isDraftPreview ? (
                       <span className="text-lg font-semibold text-zinc-900">
