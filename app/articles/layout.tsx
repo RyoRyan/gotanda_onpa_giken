@@ -15,6 +15,7 @@ export async function generateMetadata(
     {
       title: "記事一覧",
       description: "五反田音響波動技術研究所の記事一覧。",
+      pathname: "/articles",
     },
     parent,
   );

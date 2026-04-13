@@ -3,6 +3,12 @@ import Script from "next/script";
 import "./globals.css";
 import Header from "@/app/_components/Header";
 import Footer from "@/app/_components/Footer";
+import {
+  fallbackDescription as siteDescription,
+  fallbackImage as defaultShareImage,
+  siteIcons,
+  siteUrl,
+} from "@/app/_libs/metadata";
 import { Zen_Old_Mincho } from "next/font/google";
 
 const zenOldMincho = Zen_Old_Mincho({
@@ -10,10 +16,6 @@ const zenOldMincho = Zen_Old_Mincho({
   display: "swap",
 });
 
-const siteDescription =
-  "ギター・エフェクター改造製作、音響実験、電子回路の研究記録を発信する五反田音響波動技術研究所の公式サイト。";
-const siteUrl = new URL("https://www.gotanda-onpa.com");
-const defaultShareImage = "/social-share-default.png";
 const googleAnalyticsId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
 
 export const metadata: Metadata = {
@@ -27,6 +29,7 @@ export const metadata: Metadata = {
   authors: [{ name: "五反田音響波動技術研究所" }],
   creator: "五反田音響波動技術研究所",
   publisher: "五反田音響波動技術研究所",
+  icons: siteIcons,
   keywords: [
     "五反田音響波動技術研究所",
     "ギター",

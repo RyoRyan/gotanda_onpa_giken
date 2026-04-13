@@ -15,6 +15,7 @@ export async function generateMetadata(
     {
       title: "設計補助機能",
       description: "回路設計や実験の補助ツール一覧。",
+      pathname: "/tools",
     },
     parent,
   );

@@ -27,6 +27,7 @@ parent: ResolvingMetadata): Promise<Metadata> {
     {
       title: data.title,
       description: data.excerpt,
+      pathname: `/news/${slug}`,
       image: data.coverImage
         ? {
             url: data.coverImage.url,
