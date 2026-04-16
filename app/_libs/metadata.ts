@@ -34,6 +34,15 @@ export const siteIcons: NonNullable<Metadata["icons"]> = {
 const MICROCMS_IMAGE_HOSTNAME = "images.microcms-assets.io";
 const SOCIAL_IMAGE_WIDTH = 1200;
 
+const isSvgSocialImage = (url: string) => {
+  try {
+    const resolvedUrl = new URL(url, siteUrl);
+    return resolvedUrl.pathname.toLowerCase().endsWith(".svg");
+  } catch {
+    return url.toLowerCase().includes(".svg");
+  }
+};
+
 const normalizeSocialImage = (image: SocialImage): SocialImage => {
   try {
     const resolvedUrl = new URL(image.url, siteUrl);
@@ -85,7 +94,7 @@ export async function buildSocialMetadata(
   const resolvedDescription = description?.trim() || fallbackDescription;
   const socialTitle = `${title} | ${siteName}`;
   const canonicalPath = pathname?.trim();
-  const resolvedImage = image?.url
+  const resolvedImage = image?.url && !isSvgSocialImage(image.url)
     ? [
         {
           ...normalizeSocialImage(image),
@@ -95,7 +104,7 @@ export async function buildSocialMetadata(
     : [
         {
           url: fallbackImage,
-          alt: fallbackImageAlt,
+          alt: image?.url ? title : fallbackImageAlt,
         },
       ];
 
