@@ -3,6 +3,9 @@ import { getAllArticles, getAllNews, getAllProjects } from "@/app/_libs/microcms
 
 const siteUrl = "https://www.gotanda-onpa.com";
 
+const buildOpenGraphImageUrl = (pathname: string) =>
+  new URL(`${pathname.replace(/\/$/, "")}/opengraph-image`, siteUrl).toString();
+
 const staticRoutes: MetadataRoute.Sitemap = [
   {
     url: siteUrl,
@@ -58,7 +61,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: item.updatedAt,
     changeFrequency: "monthly",
     priority: 0.7,
-    ...(item.coverImage ? { images: [item.coverImage.url] } : {}),
+    images: [buildOpenGraphImageUrl(`/news/${item.slug || item.id}`)],
   }));
 
   const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({
@@ -66,7 +69,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: project.updatedAt,
     changeFrequency: "weekly",
     priority: 0.8,
-    ...(project.thumbnail ? { images: [project.thumbnail.url] } : {}),
+    images: [buildOpenGraphImageUrl(`/projects/${project.slug || project.id}`)],
   }));
 
   const articleRoutes: MetadataRoute.Sitemap = articles.map((article) => {
@@ -80,7 +83,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: article.updatedAt,
       changeFrequency: "monthly" as const,
       priority: isProjectArticle ? 0.7 : 0.6,
-      ...(article.coverImage ? { images: [article.coverImage.url] } : {}),
+      images: [buildOpenGraphImageUrl(articlePath)],
     };
   });
 
