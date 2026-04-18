@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { News } from "@/app/_libs/microcms";
+import { articleBodyClassName } from "../articleBodyClassName";
 import Date from "../Date";
 import Category from "../Category";
 
@@ -39,7 +40,7 @@ export default function NewsArticle({ data }: Props) {
         />
       )}
       <div
-        className="space-y-4 text-base leading-8 text-zinc-800 [&_a]:text-zinc-900 [&_a]:underline [&_a]:underline-offset-4 [&_h2]:mt-10 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-zinc-950 [&_h3]:mt-8 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-zinc-900 [&_img]:h-auto [&_img]:max-w-full [&_img]:rounded-xl [&_p]:leading-8 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_li]:mt-2 [&_blockquote]:border-l-4 [&_blockquote]:border-zinc-300 [&_blockquote]:pl-4 [&_blockquote]:text-zinc-600"
+        className={articleBodyClassName}
         dangerouslySetInnerHTML={{ __html: data.body }}
       />
     </article>
