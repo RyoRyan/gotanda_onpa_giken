@@ -43,8 +43,8 @@ export default async function Home() {
   });
 
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-6 lg:grid lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] lg:items-center">
-      <section className="rounded-[2rem] px-8 py-10 lg:min-h-[36rem]">
+    <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center gap-8 px-6 py-10 lg:grid lg:content-center lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] lg:items-center">
+      <section className="flex items-center rounded-[2rem] px-8 py-10">
         <div className="mx-auto flex max-w-5xl flex-col items-center gap-3 text-center">
           <p className="homePFadeIn text-base tracking-[0.3em] text-zinc-800 mb-4">
             GOTANDA ACOUSTIC WAVE TECHNOLOGY <br /> RESEARCH INSTITUTE.

@@ -1,12 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+const subscribe = () => () => {};
+const getClientSnapshot = () => true;
+const getServerSnapshot = () => false;
+
 export default function Header() {
   const pathname = usePathname();
-  const isHome = pathname === "/";
+  const isClient = useSyncExternalStore(
+    subscribe,
+    getClientSnapshot,
+    getServerSnapshot,
+  );
+  const isHome = !isClient || pathname === "/";
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [

@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { getAllArticles, getAllNews, getAllProjects } from "@/app/_libs/microcms";
 
+export const dynamic = "force-dynamic";
+
 const siteUrl = "https://www.gotanda-onpa.com";
 
 const buildOpenGraphImageUrl = (pathname: string) =>

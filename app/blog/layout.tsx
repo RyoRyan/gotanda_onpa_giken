@@ -3,6 +3,8 @@ import Hero from "@/app/_components/Hero";
 import Sheet from "@/app/_components/Sheet";
 import { buildSocialMetadata } from "@/app/_libs/metadata";
 
+export const dynamic = "force-dynamic";
+
 type Props = {
   children: React.ReactNode;
 };

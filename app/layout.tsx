@@ -82,7 +82,7 @@ export default function RootLayout({
         className={`${zenOldMincho.className} flex min-h-screen flex-col overflow-x-hidden bg-radial from-zinc-200 to-zinc-50`}
       >
         <Header />
-        <main className="flex-1 pt-24">{children}</main>
+        <main className="flex flex-1 flex-col pt-24">{children}</main>
         <Footer />
         {googleAnalyticsId ? (
           <>
