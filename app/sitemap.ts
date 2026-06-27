@@ -45,6 +45,21 @@ const staticRoutes: MetadataRoute.Sitemap = [
     priority: 0.5,
   },
   {
+    url: `${siteUrl}/tools/electronics-tools`,
+    changeFrequency: "monthly",
+    priority: 0.4,
+  },
+  {
+    url: `${siteUrl}/tools/electronics-tools/converters`,
+    changeFrequency: "monthly",
+    priority: 0.4,
+  },
+  {
+    url: `${siteUrl}/tools/electronics-tools/rc-filter-cutoff`,
+    changeFrequency: "monthly",
+    priority: 0.4,
+  },
+  {
     url: `${siteUrl}/contact`,
     changeFrequency: "monthly",
     priority: 0.5,
