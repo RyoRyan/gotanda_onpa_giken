@@ -23,20 +23,20 @@ function UnitInput({
   const inputId = useId();
 
   return (
-    <div className="flex flex-col gap-2 text-sm font-semibold">
+    <div className="flex min-w-0 flex-col gap-2 text-sm font-semibold">
       <label htmlFor={inputId}>{label}</label>
 
-      <div className="flex overflow-hidden rounded-lg border border-zinc-300 bg-white focus-within:border-zinc-700">
+      <div className="flex w-full min-w-0 overflow-hidden rounded-lg border border-zinc-300 bg-white focus-within:border-zinc-700">
         <input
           id={inputId}
           value={value}
           onChange={(event) => onChange(event.target.value)}
-          className="min-w-0 flex-1 px-3 py-2 text-right text-base outline-none"
+          className="w-full min-w-0 flex-1 px-3 py-2 text-right text-base outline-none"
           inputMode={inputMode}
           maxLength={maxLength}
         />
 
-        <div className="flex items-center border-l border-zinc-300 bg-zinc-100 text-sm text-zinc-700">
+        <div className="flex shrink-0 items-center border-l border-zinc-300 bg-zinc-100 text-sm text-zinc-700">
           {suffix}
         </div>
       </div>
@@ -411,9 +411,9 @@ export function ResistanceConverter() {
   );
 
   return (
-    <section className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
+    <section className="min-w-0 overflow-hidden rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
       <h2 className="mb-2 text-xl font-semibold">抵抗値</h2>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid min-w-0 gap-4 sm:grid-cols-2">
         <UnitInput
           label="resistance"
           value={rValue}
@@ -425,7 +425,7 @@ export function ResistanceConverter() {
               onChange={(event) =>
                 handleMultiplierChange(event.target.value as MultiplierOption)
               }
-              className="bg-transparent px-2 py-1 text-sm outline-none ring-0 focus:ring-0"
+              className="max-w-16 bg-transparent px-2 py-1 text-sm outline-none ring-0 focus:ring-0"
             >
               <option value="">Ω</option>
               <option value="K">KΩ</option>
@@ -441,9 +441,9 @@ export function ResistanceConverter() {
           suffix={<span className="px-3">code</span>}
         />
 
-        <div className="flex flex-col gap-2">
+        <div className="flex min-w-0 flex-col gap-2">
           <p className="text-sm font-semibold">4 band colorcode</p>
-          <div className="flex items-center justify-center gap-1 rounded-lg border border-zinc-200 bg-zinc-50 p-2">
+          <div className="flex min-w-0 flex-wrap items-center justify-center gap-1 rounded-lg border border-zinc-200 bg-zinc-50 p-2">
             {(() => {
               const bandValues = /^\d{3}$/.test(code)
                 ? code.split("")
@@ -490,9 +490,9 @@ export function ResistanceConverter() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex min-w-0 flex-col gap-2">
           <p className="text-sm font-semibold">5 band colorcode</p>
-          <div className="flex items-center justify-center gap-1 rounded-lg border border-zinc-200 bg-zinc-50 p-2">
+          <div className="flex min-w-0 flex-wrap items-center justify-center gap-1 rounded-lg border border-zinc-200 bg-zinc-50 p-2">
             {(() => {
               const bandValues = getFiveBandValuesFromOhms(actualOhmsValue);
               return (
@@ -592,10 +592,10 @@ export function CapacitanceConverter() {
   }
 
   return (
-    <section className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
+    <section className="min-w-0 overflow-hidden rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
       <h2 className="mb-2 text-xl font-semibold">容量値</h2>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid min-w-0 gap-4 sm:grid-cols-2">
         <UnitInput
           label="microfarad"
           value={values.uf}
@@ -748,10 +748,10 @@ function CutoffGraph({ cutoffFrequency, filterType }: CutoffGraphProps) {
   }).join(" ");
 
   return (
-    <div className="rounded-lg border border-zinc-200 bg-white p-3">
+    <div className="w-full min-w-0 overflow-hidden rounded-lg border border-zinc-200 bg-white p-3">
       <svg
         aria-label="RC filter cutoff frequency graph"
-        className="h-auto w-full"
+        className="h-auto w-full max-w-full"
         role="img"
         viewBox={`0 0 ${width} ${height}`}
       >
@@ -907,7 +907,7 @@ export function RcFilterCutoff() {
       : 1 / (2 * Math.PI * actualResistance * actualCapacitance);
 
   return (
-    <section className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
+    <section className="min-w-0 overflow-hidden rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
       <h2 className="mb-2 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-xl font-semibold">
         <span>RCフィルタ カットオフ周波数</span>
         <span className="text-sm font-medium text-zinc-500">
@@ -915,11 +915,11 @@ export function RcFilterCutoff() {
         </span>
       </h2>
 
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)]">
-        <div className="grid content-start gap-4 sm:grid-cols-2 lg:grid-cols-1">
-          <div className="flex flex-col gap-2 text-sm font-semibold sm:col-span-2 lg:col-span-1">
+      <div className="grid min-w-0 gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)]">
+        <div className="grid min-w-0 content-start gap-4 sm:grid-cols-2 lg:grid-cols-1">
+          <div className="flex min-w-0 flex-col gap-2 text-sm font-semibold sm:col-span-2 lg:col-span-1">
             <p>filter type</p>
-            <div className="grid grid-cols-2 overflow-hidden rounded-lg border border-zinc-300 bg-zinc-100 p-1">
+            <div className="grid min-w-0 grid-cols-2 overflow-hidden rounded-lg border border-zinc-300 bg-zinc-100 p-1">
               {[
                 { value: "low-pass", label: "Low pass" },
                 { value: "high-pass", label: "High pass" },
@@ -928,7 +928,7 @@ export function RcFilterCutoff() {
                   key={option.value}
                   type="button"
                   onClick={() => setFilterType(option.value as FilterType)}
-                  className={`rounded-md px-3 py-2 text-sm font-semibold transition ${
+                  className={`min-w-0 rounded-md px-2 py-2 text-center text-sm font-semibold leading-snug transition ${
                     filterType === option.value
                       ? "bg-white text-zinc-950 shadow-sm"
                       : "text-zinc-600 hover:text-zinc-950"
@@ -951,7 +951,7 @@ export function RcFilterCutoff() {
                 onChange={(event) =>
                   setResistanceUnit(event.target.value as ResistanceUnit)
                 }
-                className="bg-transparent px-2 py-1 text-sm outline-none ring-0 focus:ring-0"
+                className="max-w-16 bg-transparent px-2 py-1 text-sm outline-none ring-0 focus:ring-0"
               >
                 <option value="ohm">Ω</option>
                 <option value="kohm">kΩ</option>
@@ -971,7 +971,7 @@ export function RcFilterCutoff() {
                 onChange={(event) =>
                   setCapacitanceUnit(event.target.value as CapacitanceUnit)
                 }
-                className="bg-transparent px-2 py-1 text-sm outline-none ring-0 focus:ring-0"
+                className="max-w-16 bg-transparent px-2 py-1 text-sm outline-none ring-0 focus:ring-0"
               >
                 <option value="pf">pF</option>
                 <option value="nf">nF</option>
@@ -980,7 +980,7 @@ export function RcFilterCutoff() {
             }
           />
 
-          <div className="rounded-lg bg-zinc-100 p-4">
+          <div className="min-w-0 rounded-lg bg-zinc-100 p-4">
             <p className="text-sm font-semibold text-zinc-600">
               cutoff frequency
             </p>
@@ -1000,19 +1000,3 @@ export function RcFilterCutoff() {
     </section>
   );
 }
-
-export function ElectronicsTools() {
-  return (
-    <main className="mx-auto max-w-4xl px-4 py-10 text-zinc-950">
-      <h1 className="mb-6 text-3xl font-bold">電子工作補助ツール</h1>
-
-      <div className="space-y-6">
-        <ResistanceConverter />
-        <CapacitanceConverter />
-        <RcFilterCutoff />
-      </div>
-    </main>
-  );
-}
-
-export default ElectronicsTools;
