@@ -3,11 +3,11 @@ import Link from "next/link";
 const tools = [
   {
     title: "抵抗値・容量値コンバーター",
-    href: "/tools/electronics-tools/converters",
+    href: "/tools/converters",
   },
   {
     title: "RCフィルタ カットオフ周波数",
-    href: "/tools/electronics-tools/rc-filter-cutoff",
+    href: "/tools/rc-filter-cutoff",
   },
 ];
 

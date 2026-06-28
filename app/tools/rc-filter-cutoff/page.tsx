@@ -1,5 +1,5 @@
 import ButtonLink from "@/app/_components/ButtonLink";
-import { RcFilterCutoff } from "../ElectronicsTools";
+import { RcFilterCutoff } from "../electronics-tools/ElectronicsTools";
 
 export default function RcFilterCutoffPage() {
   return (

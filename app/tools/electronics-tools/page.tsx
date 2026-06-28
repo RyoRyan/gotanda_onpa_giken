@@ -5,12 +5,12 @@ const tools = [
   {
     title: "抵抗値・容量値コンバーター",
     description: "抵抗値、抵抗カラーコード、コンデンサ容量、3 桁コードを相互変換します。",
-    href: "/tools/electronics-tools/converters",
+    href: "/tools/converters",
   },
   {
     title: "RCフィルタ カットオフ周波数",
     description: "抵抗値と容量値から RC フィルターのカットオフ周波数を計算します。",
-    href: "/tools/electronics-tools/rc-filter-cutoff",
+    href: "/tools/rc-filter-cutoff",
   },
 ];
 

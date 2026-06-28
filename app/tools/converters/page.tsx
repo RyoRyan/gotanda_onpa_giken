@@ -2,7 +2,7 @@ import ButtonLink from "@/app/_components/ButtonLink";
 import {
   CapacitanceConverter,
   ResistanceConverter,
-} from "../ElectronicsTools";
+} from "../electronics-tools/ElectronicsTools";
 
 export default function ConvertersPage() {
   return (
