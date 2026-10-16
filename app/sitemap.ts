@@ -1,12 +1,13 @@
 import type { MetadataRoute } from "next";
 import { getAllArticles, getAllNews, getAllProjects } from "@/app/_libs/microcms";
+import { fallbackImage } from "@/app/_libs/metadata";
 
 export const dynamic = "force-dynamic";
 
 const siteUrl = "https://www.gotanda-onpa.com";
 
-const buildOpenGraphImageUrl = (pathname: string) =>
-  new URL(`${pathname.replace(/\/$/, "")}/opengraph-image`, siteUrl).toString();
+const buildImageUrl = (imageUrl?: string) =>
+  new URL(imageUrl || fallbackImage, siteUrl).toString();
 
 const staticRoutes: MetadataRoute.Sitemap = [
   {
@@ -78,7 +79,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: item.updatedAt,
     changeFrequency: "monthly",
     priority: 0.7,
-    images: [buildOpenGraphImageUrl(`/news/${item.slug || item.id}`)],
+    images: [buildImageUrl(item.coverImage?.url)],
   }));
 
   const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({
@@ -86,7 +87,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: project.updatedAt,
     changeFrequency: "weekly",
     priority: 0.8,
-    images: [buildOpenGraphImageUrl(`/projects/${project.slug || project.id}`)],
+    images: [buildImageUrl(project.thumbnail?.url)],
   }));
 
   const articleRoutes: MetadataRoute.Sitemap = articles.map((article) => {
@@ -100,7 +101,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: article.updatedAt,
       changeFrequency: "monthly" as const,
       priority: isProjectArticle ? 0.7 : 0.6,
-      images: [buildOpenGraphImageUrl(articlePath)],
+      images: [buildImageUrl(article.coverImage?.url)],
     };
   });
 
